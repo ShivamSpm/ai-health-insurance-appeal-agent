@@ -120,9 +120,7 @@ def _write_case(case: Case, letter: str, note: str) -> None:
 
 
 def _write_manifest(cases: list[Case]) -> None:
-    with open(
-        DATA_DIR / "cases" / "manifest.csv", "w", newline="", encoding="utf-8", newline="\n"
-    ) as f:
+    with open(DATA_DIR / "cases" / "manifest.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, lineterminator="\n")
         w.writerow(
             [
@@ -189,7 +187,7 @@ def main() -> int:
         )
     vocab = [e.model_dump(exclude={"member_phrases"}) for e in EVIDENCE]
     (DATA_DIR / "evidence_vocabulary.json").write_text(
-        json.dumps(vocab, indent=2) + "\n", encoding="utf-8"
+        json.dumps(vocab, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
     shutil.rmtree(DATA_DIR / "cases", ignore_errors=True)
     for case, body, note in results:
