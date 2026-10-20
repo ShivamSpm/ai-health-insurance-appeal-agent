@@ -1,0 +1,36 @@
+{
+  "case_id": "case-033",
+  "scenario": "pa-approval-not-on-file",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-6.2"
+  ],
+  "denial_basis_clause_id": "epo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order",
+    "prior_auth_request_record"
+  ],
+  "member_has": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "missing_evidence": [
+    "prior_auth_request_record"
+  ],
+  "notice_date": "2026-09-09",
+  "appeal_deadline": "2026-12-08",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.2: if a provider shows a request was submitted and approved, the plan honors it even if missing from its records."
+}

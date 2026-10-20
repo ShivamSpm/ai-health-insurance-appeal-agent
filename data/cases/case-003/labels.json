@@ -1,0 +1,33 @@
+{
+  "case_id": "case-003",
+  "scenario": "oon-emergency-room",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-7.3"
+  ],
+  "denial_basis_clause_id": "hmo-7.2",
+  "required_evidence": [
+    "emergency_records",
+    "eob"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "emergency_records",
+    "eob"
+  ],
+  "notice_date": "2026-08-27",
+  "appeal_deadline": "2026-10-26",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.3: ER care is covered at network cost sharing at any hospital; 2.4 judges emergencies by symptoms, not final diagnosis."
+}

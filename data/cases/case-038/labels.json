@@ -1,0 +1,37 @@
+{
+  "case_id": "case-038",
+  "scenario": "pa-urgent-pet",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-6.3"
+  ],
+  "denial_basis_clause_id": "epo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order",
+    "urgency_documentation"
+  ],
+  "member_has": [
+    "letter_of_medical_necessity"
+  ],
+  "missing_evidence": [
+    "medical_records",
+    "ordering_physician_order",
+    "urgency_documentation"
+  ],
+  "notice_date": "2026-07-14",
+  "appeal_deadline": "2026-10-12",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.3 (EPO): urgent services get retrospective review with documentation."
+}

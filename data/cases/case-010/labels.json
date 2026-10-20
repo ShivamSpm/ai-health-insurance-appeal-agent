@@ -1,0 +1,31 @@
+{
+  "case_id": "case-010",
+  "scenario": "oon-ancillary-lab",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-7.6"
+  ],
+  "denial_basis_clause_id": "epo-7.2",
+  "required_evidence": [
+    "eob"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "eob"
+  ],
+  "notice_date": "2026-08-24",
+  "appeal_deadline": "2026-11-23",
+  "deadline_rule": "90 days from the date on the notice; 2026-11-22 is a weekend, so it moves to the next Monday",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.6 covers out-of-network labs the member did not choose when care was at a network provider's office."
+}

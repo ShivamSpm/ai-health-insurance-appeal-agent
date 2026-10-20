@@ -1,0 +1,37 @@
+{
+  "case_id": "case-007",
+  "scenario": "valid-investigational-prp",
+  "plan_id": "epo",
+  "hard_kind": "valid_denial",
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-5.4"
+  ],
+  "denial_basis_clause_id": "epo-5.4",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results"
+  ],
+  "member_has": [
+    "itemized_bill"
+  ],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results"
+  ],
+  "notice_date": "2026-07-21",
+  "appeal_deadline": "2026-10-19",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": false,
+  "contradiction": null,
+  "injection": null,
+  "notes": "5.4 names PRP explicitly as excluded even if a provider recommends it. Appeal unlikely to succeed."
+}

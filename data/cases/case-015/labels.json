@@ -1,0 +1,35 @@
+{
+  "case_id": "case-015",
+  "scenario": "cod-modifier-25",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "coding_error"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-8.3"
+  ],
+  "denial_basis_clause_id": "ppo-8.3",
+  "required_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "member_has": [
+    "ordering_physician_order"
+  ],
+  "missing_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "notice_date": "2026-07-03",
+  "appeal_deadline": "2027-01-04",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-07-08)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "8.3: separate E/M is payable with modifier 25; the diabetes visit was separately identifiable. Provider needs to correct the claim."
+}

@@ -1,0 +1,34 @@
+{
+  "case_id": "case-031",
+  "scenario": "pa-provider-failed-infusion",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-6.4"
+  ],
+  "denial_basis_clause_id": "ppo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "member_has": [
+    "ordering_physician_order"
+  ],
+  "missing_evidence": [
+    "medical_records"
+  ],
+  "notice_date": "2026-08-19",
+  "appeal_deadline": "2027-02-20",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-08-24)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.4: when a network provider fails to get PA, the member cannot be billed. The appeal is about hold-harmless, not medical necessity."
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "case-006",
+  "scenario": "oon-anesthesia",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-7.6"
+  ],
+  "denial_basis_clause_id": "ppo-7.2",
+  "required_evidence": [
+    "eob"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "eob"
+  ],
+  "notice_date": "2026-10-06",
+  "appeal_deadline": "2027-04-09",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-10-11)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.6: out-of-network ancillary providers at a network facility get network cost sharing and no balance billing."
+}

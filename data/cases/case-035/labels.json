@@ -1,0 +1,34 @@
+{
+  "case_id": "case-035",
+  "scenario": "valid-oon-no-referral",
+  "plan_id": "hmo",
+  "hard_kind": "valid_denial",
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-7.2"
+  ],
+  "denial_basis_clause_id": "hmo-7.2",
+  "required_evidence": [
+    "pcp_referral",
+    "eob"
+  ],
+  "member_has": [
+    "eob"
+  ],
+  "missing_evidence": [
+    "pcp_referral"
+  ],
+  "notice_date": "2026-07-02",
+  "appeal_deadline": "2026-08-31",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": false,
+  "contradiction": null,
+  "injection": null,
+  "notes": "HMO 7.2 excludes OON care; no emergency, and the network option was within the 7.4 access standard. Appeal unlikely to succeed."
+}

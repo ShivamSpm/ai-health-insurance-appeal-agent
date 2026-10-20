@@ -1,0 +1,82 @@
+[
+  {
+    "id": "letter_of_medical_necessity",
+    "name": "Letter of medical necessity",
+    "description": "A letter from the treating provider explaining why the service is medically necessary for this patient."
+  },
+  {
+    "id": "medical_records",
+    "name": "Relevant medical records",
+    "description": "Clinical notes, history and records relevant to the service."
+  },
+  {
+    "id": "conservative_treatment_records",
+    "name": "Records of prior treatments tried",
+    "description": "Documentation of less intensive treatments or drugs tried first, and their results."
+  },
+  {
+    "id": "diagnostic_test_results",
+    "name": "Diagnostic test results",
+    "description": "Imaging, lab, monitoring or other test results supporting the diagnosis."
+  },
+  {
+    "id": "clinical_guidelines",
+    "name": "Clinical guidelines or published studies",
+    "description": "Published clinical guidelines or peer-reviewed studies supporting the treatment."
+  },
+  {
+    "id": "ordering_physician_order",
+    "name": "Physician's order for the service",
+    "description": "The treating provider's order documenting the service and why it was ordered."
+  },
+  {
+    "id": "prior_auth_request_record",
+    "name": "Prior authorization request record",
+    "description": "Proof that a prior authorization request was submitted or approved (confirmation, reference number, fax receipt)."
+  },
+  {
+    "id": "urgency_documentation",
+    "name": "Documentation of urgency",
+    "description": "Records showing the service was urgent and could not wait for prior authorization."
+  },
+  {
+    "id": "emergency_records",
+    "name": "Emergency or urgent care records",
+    "description": "Emergency department or urgent care records showing the condition that was treated."
+  },
+  {
+    "id": "pcp_referral",
+    "name": "Primary care referral",
+    "description": "A referral from the member's primary care physician."
+  },
+  {
+    "id": "network_status_proof",
+    "name": "Proof of provider network status",
+    "description": "A provider directory listing or plan confirmation showing the provider's network status when care was scheduled or received."
+  },
+  {
+    "id": "network_adequacy_evidence",
+    "name": "Evidence no network provider was available",
+    "description": "Documentation that no network provider could provide the service within the plan's access standards (distance or wait time)."
+  },
+  {
+    "id": "eob",
+    "name": "Explanation of Benefits",
+    "description": "The plan's Explanation of Benefits statement for the claim."
+  },
+  {
+    "id": "itemized_bill",
+    "name": "Itemized bill",
+    "description": "The provider's itemized bill listing each billed code and charge."
+  },
+  {
+    "id": "corrected_claim",
+    "name": "Corrected claim",
+    "description": "The provider's corrected claim with fixed codes, modifiers or units."
+  },
+  {
+    "id": "provider_coding_letter",
+    "name": "Letter from the provider's billing office",
+    "description": "A letter from the provider's billing office explaining the codes used and any correction."
+  }
+]

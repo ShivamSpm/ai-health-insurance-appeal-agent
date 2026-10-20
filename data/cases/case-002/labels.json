@@ -1,0 +1,36 @@
+{
+  "case_id": "case-002",
+  "scenario": "pa-emergency-ct",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-6.3"
+  ],
+  "denial_basis_clause_id": "hmo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order",
+    "emergency_records"
+  ],
+  "member_has": [
+    "emergency_records"
+  ],
+  "missing_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "notice_date": "2026-07-15",
+  "appeal_deadline": "2026-09-13",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.3: emergency services never need PA, even on the HMO, which otherwise has no retro review. emergency_records show the emergency."
+}

@@ -1,0 +1,7 @@
+{
+  "case_id": "case-022",
+  "plan_id": "epo",
+  "plan_file": "plans/epo.md",
+  "denial_letter_file": "cases/case-022/denial_letter.md",
+  "member_note_file": "cases/case-022/member_note.md"
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "case-018",
+  "scenario": "mn-cgm",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-5.3"
+  ],
+  "denial_basis_clause_id": "hmo-5.3",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results"
+  ],
+  "member_has": [
+    "diagnostic_test_results",
+    "network_adequacy_evidence"
+  ],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records"
+  ],
+  "notice_date": "2026-09-23",
+  "appeal_deadline": "2026-11-22",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "5.3(a) covers CGM for documented problematic hypoglycemia, including any episode needing another person's help. Glucose logs are diagnostic_test_results."
+}

@@ -1,0 +1,44 @@
+{
+  "case_id": "case-037",
+  "scenario": "amb-coding-or-mn",
+  "plan_id": "epo",
+  "hard_kind": "ambiguous",
+  "denial_types": [
+    "coding_error",
+    "medical_necessity"
+  ],
+  "ambiguous": true,
+  "expected_skills": [
+    "coding-error-appeal",
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-8.2",
+    "epo-5.1"
+  ],
+  "denial_basis_clause_id": "epo-8.2",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results",
+    "itemized_bill",
+    "corrected_claim"
+  ],
+  "member_has": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "prior_auth_request_record",
+    "itemized_bill"
+  ],
+  "missing_evidence": [
+    "diagnostic_test_results",
+    "corrected_claim"
+  ],
+  "notice_date": "2026-10-01",
+  "appeal_deadline": "2026-12-30",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "'Does not support the procedure as billed' can mean a coding mismatch (trouble swallowing was not coded) or a medical necessity judgment."
+}

@@ -1,0 +1,33 @@
+{
+  "case_id": "case-012",
+  "scenario": "oon-travel-urgent-care",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-7.9"
+  ],
+  "denial_basis_clause_id": "hmo-7.2",
+  "required_evidence": [
+    "emergency_records",
+    "eob"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "emergency_records",
+    "eob"
+  ],
+  "notice_date": "2026-09-23",
+  "appeal_deadline": "2026-11-22",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.9: urgent care more than 100 miles from home is covered at network level. No referral needed for urgent care (7.8)."
+}

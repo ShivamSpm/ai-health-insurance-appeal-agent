@@ -1,0 +1,36 @@
+{
+  "case_id": "case-025",
+  "scenario": "cod-units",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "coding_error"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-8.2"
+  ],
+  "denial_basis_clause_id": "ppo-8.2",
+  "required_evidence": [
+    "itemized_bill",
+    "corrected_claim",
+    "provider_coding_letter"
+  ],
+  "member_has": [
+    "corrected_claim"
+  ],
+  "missing_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "notice_date": "2026-08-03",
+  "appeal_deadline": "2027-02-04",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-08-08)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "J3301 is per 10 mg, so 40 mg = 4 units. 8.2: units must match the code's unit description. corrected_claim with 4 units."
+}

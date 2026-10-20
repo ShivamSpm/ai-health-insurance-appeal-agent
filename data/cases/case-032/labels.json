@@ -1,0 +1,35 @@
+{
+  "case_id": "case-032",
+  "scenario": "mn-inpatient-days",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-5.3"
+  ],
+  "denial_basis_clause_id": "epo-5.3",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "diagnostic_test_results"
+  ],
+  "notice_date": "2026-08-04",
+  "appeal_deadline": "2026-11-02",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "5.3(c): continued stay is necessary while the member needs IV antibiotics or monitored oxygen. EPO base requirements include diagnostic_test_results."
+}

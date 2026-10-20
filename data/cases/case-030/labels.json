@@ -1,0 +1,35 @@
+{
+  "case_id": "case-030",
+  "scenario": "oon-network-adequacy-peds",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-7.4"
+  ],
+  "denial_basis_clause_id": "epo-7.2",
+  "required_evidence": [
+    "network_adequacy_evidence",
+    "eob"
+  ],
+  "member_has": [
+    "diagnostic_test_results"
+  ],
+  "missing_evidence": [
+    "network_adequacy_evidence",
+    "eob"
+  ],
+  "notice_date": "2026-08-27",
+  "appeal_deadline": "2026-11-25",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.4 (EPO, 35 miles / 15 business days): both distance and wait exceed the standard, so a network access exception applies."
+}

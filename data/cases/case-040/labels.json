@@ -1,0 +1,40 @@
+{
+  "case_id": "case-040",
+  "scenario": "amb-oon-or-coding",
+  "plan_id": "hmo",
+  "hard_kind": "ambiguous",
+  "denial_types": [
+    "out_of_network",
+    "coding_error"
+  ],
+  "ambiguous": true,
+  "expected_skills": [
+    "out-of-network-appeal",
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-7.1",
+    "hmo-8.2"
+  ],
+  "denial_basis_clause_id": "hmo-7.2",
+  "required_evidence": [
+    "eob",
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "member_has": [
+    "letter_of_medical_necessity",
+    "eob",
+    "provider_coding_letter"
+  ],
+  "missing_evidence": [
+    "itemized_bill"
+  ],
+  "notice_date": "2026-07-08",
+  "appeal_deadline": "2026-09-06",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "Could be a true network issue (7.1 ties status to location) or a billing error (wrong provider ID, 8.2). Both are plausible."
+}

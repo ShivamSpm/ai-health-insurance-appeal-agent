@@ -1,0 +1,35 @@
+{
+  "case_id": "case-017",
+  "scenario": "cod-invalid-icd",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "coding_error"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-8.2"
+  ],
+  "denial_basis_clause_id": "epo-8.2",
+  "required_evidence": [
+    "itemized_bill",
+    "corrected_claim"
+  ],
+  "member_has": [
+    "clinical_guidelines"
+  ],
+  "missing_evidence": [
+    "itemized_bill",
+    "corrected_claim"
+  ],
+  "notice_date": "2026-09-11",
+  "appeal_deadline": "2026-12-10",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "M54.5 was replaced by M54.50/51/59; 8.2 requires codes valid on the date of service at the highest specificity. EPO base requires corrected_claim."
+}

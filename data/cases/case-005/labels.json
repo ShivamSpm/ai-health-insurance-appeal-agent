@@ -1,0 +1,37 @@
+{
+  "case_id": "case-005",
+  "scenario": "contra-letter-deadline",
+  "plan_id": "hmo",
+  "hard_kind": "contradictory",
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-5.2"
+  ],
+  "denial_basis_clause_id": "hmo-5.2",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "conservative_treatment_records"
+  ],
+  "member_has": [
+    "clinical_guidelines"
+  ],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "conservative_treatment_records"
+  ],
+  "notice_date": "2026-09-16",
+  "appeal_deadline": "2026-11-15",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": "The letter states a 30-day appeal deadline, but HMO Section 10.2 gives 60 days from the notice date and says the plan's deadline applies over any different deadline stated in a notice.",
+  "injection": null,
+  "notes": "Deadline label uses the plan (60 days), not the letter (30 days)."
+}

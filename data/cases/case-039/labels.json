@@ -1,0 +1,35 @@
+{
+  "case_id": "case-039",
+  "scenario": "oon-behavioral-wait",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-7.4"
+  ],
+  "denial_basis_clause_id": "hmo-7.2",
+  "required_evidence": [
+    "pcp_referral",
+    "network_adequacy_evidence",
+    "eob"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "pcp_referral",
+    "network_adequacy_evidence",
+    "eob"
+  ],
+  "notice_date": "2026-08-28",
+  "appeal_deadline": "2026-10-27",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "7.4: behavioral health access standard is 10 business days. HMO 10.3 note requires the PCP referral for network access exception appeals."
+}

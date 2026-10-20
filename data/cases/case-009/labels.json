@@ -1,0 +1,33 @@
+{
+  "case_id": "case-009",
+  "scenario": "pa-provider-failed-genetic",
+  "plan_id": "epo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-6.4"
+  ],
+  "denial_basis_clause_id": "epo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "notice_date": "2026-10-02",
+  "appeal_deadline": "2026-12-31",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "Genetic testing needs PA only on the EPO (6.1). The ordering provider is in-network, so 6.4 hold-harmless governs."
+}

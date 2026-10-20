@@ -1,0 +1,35 @@
+{
+  "case_id": "case-011",
+  "scenario": "cod-bilateral-duplicate",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "coding_error"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-8.4"
+  ],
+  "denial_basis_clause_id": "hmo-8.4",
+  "required_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "member_has": [
+    "emergency_records"
+  ],
+  "missing_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "notice_date": "2026-10-09",
+  "appeal_deadline": "2026-12-08",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "8.4: bilateral services are not duplicates when billed with RT/LT or 50."
+}

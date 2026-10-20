@@ -1,0 +1,36 @@
+{
+  "case_id": "case-036",
+  "scenario": "mn-biologic-step",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-5.2"
+  ],
+  "denial_basis_clause_id": "ppo-5.2",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "conservative_treatment_records"
+  ],
+  "member_has": [
+    "medical_records"
+  ],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "conservative_treatment_records"
+  ],
+  "notice_date": "2026-07-09",
+  "appeal_deadline": "2027-01-10",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-07-14)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "5.2(b) step therapy has an exception when methotrexate was not tolerated. The prior trial needs documenting (conservative_treatment_records)."
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "case-019",
+  "scenario": "mn-pt-progress",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "medical_necessity"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-5.3"
+  ],
+  "denial_basis_clause_id": "hmo-5.3",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records"
+  ],
+  "member_has": [
+    "letter_of_medical_necessity",
+    "ordering_physician_order"
+  ],
+  "missing_evidence": [
+    "medical_records"
+  ],
+  "notice_date": "2026-09-30",
+  "appeal_deadline": "2026-11-29",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "5.3(d): rehab is necessary while records show measurable improvement. Visits 9-12 are under the HMO PA threshold (12), so this is purely medical necessity."
+}

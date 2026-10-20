@@ -1,0 +1,34 @@
+{
+  "case_id": "case-008",
+  "scenario": "contra-directory",
+  "plan_id": "epo",
+  "hard_kind": "contradictory",
+  "denial_types": [
+    "out_of_network"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "out-of-network-appeal"
+  ],
+  "governing_clause_ids": [
+    "epo-7.7"
+  ],
+  "denial_basis_clause_id": "epo-7.2",
+  "required_evidence": [
+    "network_status_proof",
+    "eob"
+  ],
+  "member_has": [
+    "network_status_proof"
+  ],
+  "missing_evidence": [
+    "eob"
+  ],
+  "notice_date": "2026-09-25",
+  "appeal_deadline": "2026-12-24",
+  "deadline_rule": "90 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": "The letter says the provider is out-of-network, but the plan's own directory listed him as in-network when the member booked.",
+  "injection": null,
+  "notes": "7.7 directory accuracy: member pays network cost sharing. The member already has the directory proof, so only the EOB is missing."
+}

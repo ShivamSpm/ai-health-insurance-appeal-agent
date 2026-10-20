@@ -1,0 +1,36 @@
+{
+  "case_id": "case-027",
+  "scenario": "pa-urgent-mri",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-6.3"
+  ],
+  "denial_basis_clause_id": "ppo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order",
+    "urgency_documentation"
+  ],
+  "member_has": [
+    "urgency_documentation"
+  ],
+  "missing_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "notice_date": "2026-10-06",
+  "appeal_deadline": "2027-04-09",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-10-11)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.3 (PPO): urgent services get retrospective review if records show they could not wait. New foot weakness supports urgency."
+}

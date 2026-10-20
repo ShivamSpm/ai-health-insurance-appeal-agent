@@ -1,0 +1,35 @@
+{
+  "case_id": "case-001",
+  "scenario": "cod-place-of-service",
+  "plan_id": "ppo",
+  "hard_kind": null,
+  "denial_types": [
+    "coding_error"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "coding-error-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-8.2"
+  ],
+  "denial_basis_clause_id": "ppo-8.2",
+  "required_evidence": [
+    "itemized_bill",
+    "provider_coding_letter"
+  ],
+  "member_has": [
+    "urgency_documentation",
+    "provider_coding_letter"
+  ],
+  "missing_evidence": [
+    "itemized_bill"
+  ],
+  "notice_date": "2026-09-08",
+  "appeal_deadline": "2027-03-12",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-09-13)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "8.2: POS must match where service was performed (office, POS 11)."
+}

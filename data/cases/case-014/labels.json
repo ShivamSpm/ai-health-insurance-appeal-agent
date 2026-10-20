@@ -1,0 +1,35 @@
+{
+  "case_id": "case-014",
+  "scenario": "pa-facility-change",
+  "plan_id": "hmo",
+  "hard_kind": null,
+  "denial_types": [
+    "prior_authorization"
+  ],
+  "ambiguous": false,
+  "expected_skills": [
+    "prior-authorization-appeal"
+  ],
+  "governing_clause_ids": [
+    "hmo-6.2"
+  ],
+  "denial_basis_clause_id": "hmo-6.1",
+  "required_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "member_has": [
+    "emergency_records"
+  ],
+  "missing_evidence": [
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "notice_date": "2026-07-15",
+  "appeal_deadline": "2026-09-13",
+  "deadline_rule": "60 days from the date on the notice",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "6.2: an authorization stays valid if the service moves to another network facility. Base PA requirements apply."
+}

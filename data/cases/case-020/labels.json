@@ -1,0 +1,38 @@
+{
+  "case_id": "case-020",
+  "scenario": "amb-pa-or-mn",
+  "plan_id": "ppo",
+  "hard_kind": "ambiguous",
+  "denial_types": [
+    "prior_authorization",
+    "medical_necessity"
+  ],
+  "ambiguous": true,
+  "expected_skills": [
+    "prior-authorization-appeal",
+    "medical-necessity-appeal"
+  ],
+  "governing_clause_ids": [
+    "ppo-6.1",
+    "ppo-5.1"
+  ],
+  "denial_basis_clause_id": "ppo-6.1",
+  "required_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "member_has": [],
+  "missing_evidence": [
+    "letter_of_medical_necessity",
+    "medical_records",
+    "ordering_physician_order"
+  ],
+  "notice_date": "2026-10-01",
+  "appeal_deadline": "2027-04-04",
+  "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-10-06)",
+  "appeal_viable": true,
+  "contradiction": null,
+  "injection": null,
+  "notes": "Two stated reasons (no PA and not medically necessary). The agent should flag ambiguity and address both."
+}
