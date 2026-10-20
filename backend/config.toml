@@ -1,0 +1,11 @@
+# Model and provider settings. Secrets live in the repo-root .env, never here.
+# Any [models] value can be overridden with an env var, e.g. APPEAL_MODEL_AGENT.
+
+[llm]
+base_url = "https://api.inference.crusoecloud.com/v1/"
+api_key_env = "CRUSOE_API_KEY"
+
+[models]
+agent = "deepseek-ai/DeepSeek-V4-Pro"
+agent_cheap = "deepseek-ai/DeepSeek-V4.1-Flash"
+dataset_writer = "deepseek-ai/DeepSeek-V4.1-Flash"
