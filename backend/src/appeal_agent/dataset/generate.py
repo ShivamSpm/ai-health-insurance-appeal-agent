@@ -102,8 +102,8 @@ def render_note(case: Case, body: str) -> str:
 def _write_case(case: Case, letter: str, note: str) -> None:
     d = DATA_DIR / "cases" / case.case_id
     d.mkdir(parents=True)
-    (d / "denial_letter.md").write_text(letter, encoding="utf-8")
-    (d / "member_note.md").write_text(note, encoding="utf-8")
+    (d / "denial_letter.md").write_text(letter, encoding="utf-8", newline="\n")
+    (d / "member_note.md").write_text(note, encoding="utf-8", newline="\n")
     inputs = CaseInputs(
         case_id=case.case_id,
         plan_id=case.scenario.plan,
@@ -111,13 +111,19 @@ def _write_case(case: Case, letter: str, note: str) -> None:
         denial_letter_file=f"cases/{case.case_id}/denial_letter.md",
         member_note_file=f"cases/{case.case_id}/member_note.md",
     )
-    (d / "case.json").write_text(inputs.model_dump_json(indent=2) + "\n", encoding="utf-8")
-    (d / "labels.json").write_text(case.labels.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    (d / "case.json").write_text(
+        inputs.model_dump_json(indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
+    (d / "labels.json").write_text(
+        case.labels.model_dump_json(indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 def _write_manifest(cases: list[Case]) -> None:
-    with open(DATA_DIR / "cases" / "manifest.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+    with open(
+        DATA_DIR / "cases" / "manifest.csv", "w", newline="", encoding="utf-8", newline="\n"
+    ) as f:
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(
             [
                 "case_id",
@@ -178,7 +184,9 @@ def main() -> int:
 
     (DATA_DIR / "plans").mkdir(parents=True, exist_ok=True)
     for plan in PLANS.values():
-        (DATA_DIR / "plans" / f"{plan.plan_id}.md").write_text(render_plan(plan), encoding="utf-8")
+        (DATA_DIR / "plans" / f"{plan.plan_id}.md").write_text(
+            render_plan(plan), encoding="utf-8", newline="\n"
+        )
     vocab = [e.model_dump(exclude={"member_phrases"}) for e in EVIDENCE]
     (DATA_DIR / "evidence_vocabulary.json").write_text(
         json.dumps(vocab, indent=2) + "\n", encoding="utf-8"
