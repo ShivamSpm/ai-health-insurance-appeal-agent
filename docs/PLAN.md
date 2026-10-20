@@ -65,6 +65,18 @@ Deliberately hard cases:
 - contradictory documents
 - a prompt-injection line hidden in a denial letter
 
+### Dataset decisions (agreed on Day 1)
+| Area | Decision | Why |
+|---|---|---|
+| Generation | Python builds each case from a structured spec, so labels are correct by construction. A cheap model writes only the letter and note prose. Code checks that the key facts appear in the text, and any injection line is inserted by code. | Reliable labels with varied text. |
+| Inputs per case | Denial letter, plan document, and a short **member note** saying what the member already has | Makes "missing evidence" a reading task, not a lookup |
+| Missing evidence | `required − member_has`. `required` = what the plan's appeals section lists for that denial type, plus anything the denial letter says was lacking. Labels use IDs from a fixed vocabulary (`data/evidence_vocabulary.json`). The agent outputs IDs plus a free-text reason for each. | IDs are scored in code (precision/recall). The free text is checked by the letter-quality judge. Free text alone varied too much between models in the model check. |
+| Ambiguous denials | The agent must output `ambiguous: true` and the candidate types. Ambiguous cases are labeled with ≥2 `denial_types`. | Tests whether the agent knows when it's unsure, instead of just guessing |
+| Case mix | 28 standard (7 per denial type) + 12 hard (3 each: ambiguous, valid denial, contradictory documents, prompt injection) | |
+| Plans | One fictional insurer with 3 plans (PPO, HMO, EPO). Section numbering is the same across plans, but the rules differ: appeal window, prior-auth list, network rules. | The agent must read the right plan instead of memorizing one |
+| Deadlines | Each plan sets its own appeal window and starting point (date on the notice or date received), and one plan has a weekend rule | Deadline accuracy tests reading the plan, not knowing the ACA default |
+| Format | Markdown. Plans have `<!-- page N -->` markers and numbered `###` sections, which give chunk IDs like `ppo-7.1`. | Stable citations, easy highlighting in the UI |
+
 ### Evals
 - **Code-checked:** denial-type accuracy, skill-routing accuracy, clause retrieval recall, citation validity, deadline accuracy, output validity, steps per case.
 - **LLM-as-judge:** appeal quality against a rubric (grounded, addresses the denial reason, no invented facts). Calibrated against about 15 letters hand-labeled by the owner; the agreement rate is reported.
