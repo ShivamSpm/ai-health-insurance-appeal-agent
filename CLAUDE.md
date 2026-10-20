@@ -23,5 +23,7 @@ A portfolio project the owner is building to get hired at SF AI startups, for **
   - Two-turn test (`search_policy`, then a nested-schema `submit_findings`, `system` role): all four candidates returned valid JSON with the right denial type, clause and deadline.
   - DeepSeek Pro, DeepSeek Flash and GLM emit **parallel tool calls** in one turn, so the runtime must handle several tool calls per step.
   - Free-text `missing_evidence` varied a lot between models (1 to 4 items, different wording), so it can't be scored by exact match.
-- [ ] GitHub repo created and linked
-- [ ] Day 1: scaffold, synthetic case generator, 40 labeled cases
+- [x] GitHub repo created and linked: https://github.com/ShivamSpm/ai-health-insurance-appeal-agent
+- [x] Day 1 (Claude's part): scaffold, synthetic case generator, 40 labeled cases. Regenerate with `cd backend && uv run python -m appeal_agent.dataset.generate`; test with `uv run pytest`.
+- [ ] Day 1 (owner's part): review 10 cases and fix labels
+- [ ] Open question for the owner: should clause-retrieval evals score `governing_clause_ids` (the clauses the appeal relies on), `denial_basis_clause_id` (the clause the insurer cited), or both?
