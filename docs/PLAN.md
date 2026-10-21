@@ -77,6 +77,24 @@ Deliberately hard cases:
 | Deadlines | Each plan sets its own appeal window and starting point (date on the notice or date received), and one plan has a weekend rule | Deadline accuracy tests reading the plan, not knowing the ACA default |
 | Format | Markdown. Plans have `<!-- page N -->` markers and numbered `###` sections, which give chunk IDs like `ppo-7.1`. | Stable citations, easy highlighting in the UI |
 
+### Runtime decisions (agreed on Day 2)
+| Area | Decision |
+|---|---|
+| Document access | Tools: `get_denial_letter()` and `get_member_note()`. Content is returned wrapped as untrusted document data. |
+| Policy retrieval | `search_policy(query)`: BM25 over plan sections, top 4, full section text with chunk ID, title and page. `get_section(id)` fetches one section by ID, for cross-references. Anything returned counts as retrieved. |
+| Deadline math | `date_calc(start, add_days)` returns the date and its weekday. The agent must still read the plan's rule. |
+| Output | Two tools. `submit_findings` is validated first, then `submit_appeal_letter`, with inline citations like `[ppo-6.4]` that must have been retrieved. |
+| Findings fields | Denial type(s), `ambiguous`, governing clauses, `denial_basis_clause`, missing evidence (vocabulary ID + reason), deadline with reasoning, `appeal_viable` + rationale, `contradictions`, `suspicious_instructions` |
+| Weak appeals | If `appeal_viable` is false, the agent explains why and writes no letter |
+| Skill content | General real-world appeal knowledge and evidence checklists using the vocabulary IDs. Never this insurer's section numbers or rules. |
+| Ambiguous denials | Load the appeal skill for every candidate type. The letter addresses each reading. |
+| Workflow gates | None. The system prompt describes the workflow, and the evals measure whether it was followed. |
+| Letter gaps | Known facts are filled in. Unknown details become `[bracketed placeholders]` for the human. |
+| Limits | 25 steps (one step = one LLM call), 2 retries for malformed or invalid tool calls, temperature 0 |
+| Traces | SQLite from Day 2 (runs and steps tables), with a CLI trace viewer and a JSON export |
+| Cost | Per-token prices from Crusoe's public pricing page, kept in `config.toml` with source and date |
+| Versioning | Each run stores a content hash of the system prompt and of each skill folder, plus the git commit SHA |
+
 ### Evals
 - **Code-checked:** denial-type accuracy, skill-routing accuracy, clause retrieval recall, citation validity, deadline accuracy, output validity, steps per case.
 - **LLM-as-judge:** appeal quality against a rubric (grounded, addresses the denial reason, no invented facts). Calibrated against about 15 letters hand-labeled by the owner; the agreement rate is reported.
