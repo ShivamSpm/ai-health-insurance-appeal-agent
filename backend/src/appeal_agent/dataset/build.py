@@ -10,7 +10,8 @@ from datetime import date, timedelta
 
 from appeal_agent.dataset.plans import PLANS
 from appeal_agent.dataset.scenarios import SCENARIOS, Scenario
-from appeal_agent.dataset.schema import EVIDENCE, SKILL_FOR_TYPE, CaseLabels
+from appeal_agent.dataset.schema import CaseLabels
+from appeal_agent.domain import EVIDENCE, SKILL_FOR_TYPE
 
 SEED = 20261020
 

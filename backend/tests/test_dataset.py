@@ -10,7 +10,7 @@ from appeal_agent.dataset.build import build_cases
 from appeal_agent.dataset.plans import PLANS, render_plan, section_numbers
 from appeal_agent.dataset.prose import DATE_PATTERNS, NOTE_BANNED
 from appeal_agent.dataset.scenarios import SCENARIOS
-from appeal_agent.dataset.schema import DENIAL_TYPES, EVIDENCE_BY_ID
+from appeal_agent.domain import DENIAL_TYPES, EVIDENCE_BY_ID
 
 CASES = build_cases()
 

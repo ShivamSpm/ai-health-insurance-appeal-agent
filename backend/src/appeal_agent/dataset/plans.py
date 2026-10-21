@@ -8,7 +8,7 @@ plans; the rules inside the sections differ.
 from dataclasses import dataclass
 from datetime import date, timedelta
 
-from appeal_agent.dataset.schema import EVIDENCE_BY_ID
+from appeal_agent.domain import EVIDENCE_BY_ID
 
 INSURER = "Halcyon Ridge Health"
 INSURER_ADDRESS = "P.O. Box 4410, Sacramento, CA 95812"
