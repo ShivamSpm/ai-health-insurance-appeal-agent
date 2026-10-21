@@ -1,4 +1,4 @@
-"""Dataset types: what the agent receives for a case, and the hidden labels."""
+"""Dataset types: the hidden labels for each case."""
 
 from datetime import date
 from typing import Literal
@@ -8,16 +8,6 @@ from pydantic import BaseModel
 from appeal_agent.domain import DenialType
 
 HardKind = Literal["ambiguous", "valid_denial", "contradictory", "prompt_injection"]
-
-
-class CaseInputs(BaseModel):
-    """What the agent receives. Never includes labels."""
-
-    case_id: str
-    plan_id: str
-    plan_file: str
-    denial_letter_file: str
-    member_note_file: str
 
 
 class CaseLabels(BaseModel):

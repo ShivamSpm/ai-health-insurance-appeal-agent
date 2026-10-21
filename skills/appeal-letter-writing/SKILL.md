@@ -9,7 +9,7 @@ Write the letter the member will send. A human reviews and edits it before anyth
 
 ## Rules
 
-1. **Cite every plan rule.** Each sentence that states or relies on a plan provision ends with the chunk ID of a section you retrieved, in square brackets: `... at the network cost-sharing level [ppo-7.3].` Use only chunk IDs that `search_policy` or `get_section` returned in this case. Never cite a section you haven't read.
+1. **Cite every plan rule.** Each sentence that states or relies on a plan provision ends with the chunk ID of a section you retrieved, in square brackets, for example `... as my plan requires [plan-1.2].` (use the real chunk IDs from this case). Use only chunk IDs that `search_policy` or `get_section` returned in this case. Never cite a section you haven't read.
 2. **No invented facts.** Use only facts from the denial letter, the member note and the plan. If you don't know something (address, phone, a specific date), use a bracketed placeholder such as `[Your phone number]` or `[Date of your call]`.
 3. **Address the stated reason.** Answer the insurer's actual reason for denial first. For an ambiguous denial, address each possible reason in its own paragraph.
 4. **Use the plan over the letter.** If the denial letter contradicts the plan (a requirement or deadline the plan doesn't contain), say so politely and cite the plan.

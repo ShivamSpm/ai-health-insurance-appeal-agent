@@ -24,8 +24,7 @@ from appeal_agent.dataset.plans import (
     PLANS,
     render_plan,
 )
-from appeal_agent.dataset.schema import CaseInputs
-from appeal_agent.domain import EVIDENCE, EVIDENCE_BY_ID
+from appeal_agent.domain import EVIDENCE, EVIDENCE_BY_ID, CaseInputs
 
 
 def _fmt(d) -> str:

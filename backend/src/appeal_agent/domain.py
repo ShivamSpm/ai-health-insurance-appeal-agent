@@ -186,3 +186,13 @@ EVIDENCE: list[EvidenceItem] = [
 ]
 
 EVIDENCE_BY_ID: dict[str, EvidenceItem] = {e.id: e for e in EVIDENCE}
+
+
+class CaseInputs(BaseModel):
+    """What the agent receives. Never includes labels."""
+
+    case_id: str
+    plan_id: str
+    plan_file: str
+    denial_letter_file: str
+    member_note_file: str
