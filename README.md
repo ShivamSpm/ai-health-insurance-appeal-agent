@@ -16,3 +16,13 @@ cp .env.example .env   # add your Crusoe API key
 cd backend
 uv sync
 ```
+
+## Run the agent
+```bash
+cd backend
+uv run appeal-agent run case-031            # main model from config.toml
+uv run appeal-agent run case-031 --model deepseek-ai/DeepSeek-V4.1-Flash
+uv run appeal-agent trace <run_id>          # step-by-step trace; --full, --json
+uv run appeal-agent runs                    # recent runs
+uv run pytest                               # tests, no LLM calls
+```

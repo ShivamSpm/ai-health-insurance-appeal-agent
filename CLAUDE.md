@@ -26,4 +26,6 @@ A portfolio project the owner is building to get hired at SF AI startups, for **
 - [x] GitHub repo created and linked: https://github.com/ShivamSpm/ai-health-insurance-appeal-agent
 - [x] Day 1 (Claude's part): scaffold, synthetic case generator, 40 labeled cases. Regenerate with `cd backend && uv run python -m appeal_agent.dataset.generate`; test with `uv run pytest`.
 - [ ] Day 1 (owner's part): review 10 cases and fix labels
-- [ ] Open question for the owner: should clause-retrieval evals score `governing_clause_ids` (the clauses the appeal relies on), `denial_basis_clause_id` (the clause the insurer cited), or both?
+- [ ] Open question for the owner: should clause-retrieval evals score `governing_clause_ids` (the clauses the appeal relies on), `denial_basis_clause_id` (the clause the insurer cited), or both? (Decide by Day 3.)
+- [x] Day 2 (Claude's part): runtime, skills, tools, CLI runner. Decisions in `docs/PLAN.md`. Run with `cd backend && uv run appeal-agent run case-031`; read traces with `uv run appeal-agent trace <run_id>`. Measured on case-031: V4 Pro $0.032/case (11 calls, 86% of input cached), V4.1 Flash $0.008/case.
+- [ ] Day 2 (owner's part): run 5 cases and read the traces
