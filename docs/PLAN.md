@@ -117,5 +117,10 @@ Deliberately hard cases:
 | 6 | Skill fixes and model comparison | Fix 2–3 failure types personally; Hermes demo |
 | 7 | Deploy; README with diagram and results | Record a 2-minute demo video |
 
+## Backlog (agreed, scheduled)
+| Day | Item | Origin |
+|---|---|---|
+| 6 | **"Before you send" checklist.** Add a findings field listing facts the member can cheaply confirm before sending (e.g. "call the clinic's billing office and ask which provider ID they billed under"). The UI shows it above the draft. The letter-writing skill should ask the insurer to verify instead of speculating. | Case-040 trace: the letter cited Section 7.1 to argue the opposite of what it says, and presented a guess as the "most likely explanation". |
+
 ## Deployment
 Frontend on Vercel's free tier. Backend on Render or Fly.
