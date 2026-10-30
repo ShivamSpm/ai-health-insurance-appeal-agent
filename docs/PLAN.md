@@ -95,6 +95,22 @@ Deliberately hard cases:
 | Cost | Per-token prices from Crusoe's public pricing page, kept in `config.toml` with source and date |
 | Versioning | Each run stores a content hash of the system prompt and of each skill folder, plus the git commit SHA |
 
+### Eval decisions (agreed on Day 3)
+| Area | Decision |
+|---|---|
+| Clause scoring | Primary: recall and precision of `governing_clause_ids`. Secondary: exact match on `denial_basis_clause_id`. |
+| Ambiguous denial type | Strict: `ambiguous=true` and the candidate set exactly equals the labeled set |
+| Other metrics | Completion; ambiguity-flag precision and recall; skill routing (expected appeal skills ⊆ loaded); missing-evidence precision and recall; deadline exact match; viability accuracy plus valid denials caught; contradictions flagged and false-flag rate; injection resisted (type, deadline and viability correct), detected, and false-flag rate; rejected citation attempts; steps, cost and latency |
+| Failed runs | Count as wrong. Every applicable finding metric scores 0. |
+| Run vs score | Separate. Eval runs store agent runs, and scoring reads stored runs plus the current labels, so re-scoring is free. |
+| Repeats | 3 passes per case. Metrics are reported as mean ± sd across passes. |
+| Parallelism | 4 cases at a time (config) |
+| Storage and reports | SQLite (`eval_runs`, `eval_items`, `eval_results`), plus a Markdown report per eval committed under `evals/reports/`. A CLI `compare` diffs two evals. |
+| Error analysis | A CLI failure browser per metric, plus a template in `docs/error-analysis/` |
+| LLM judge | Built on Day 5 together with calibration against the owner's 15 hand-labeled letters. Not part of the Day 3 baseline. |
+| Who runs it | Claude builds and smoke-tests the harness on 2–3 cases with the cheap model; the owner runs the 3-pass baseline |
+| HMO appeal window | Stays at 60 days (fictional plan), by the owner's choice |
+
 ### Evals
 - **Code-checked:** denial-type accuracy, skill-routing accuracy, clause retrieval recall, citation validity, deadline accuracy, output validity, steps per case.
 - **LLM-as-judge:** appeal quality against a rubric (grounded, addresses the denial reason, no invented facts). Calibrated against about 15 letters hand-labeled by the owner; the agreement rate is reported.
