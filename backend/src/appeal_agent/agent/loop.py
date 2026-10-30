@@ -95,7 +95,7 @@ class RunResult:
     loaded_skills: list[str] = field(default_factory=list)
 
 
-def _git_sha() -> str | None:
+def git_sha() -> str | None:
     def git(*args):
         return subprocess.run(
             ["git", *args], cwd=REPO_ROOT, capture_output=True, text=True, check=True
@@ -119,25 +119,30 @@ def load_case(case_id: str) -> CaseInputs:
     return CaseInputs.model_validate_json(path.read_text(encoding="utf-8"))
 
 
+def new_run_id(case_id: str) -> str:
+    return f"{datetime.now():%Y%m%d-%H%M%S}-{case_id}-{uuid.uuid4().hex[:4]}"
+
+
 def run_case(
     case_id: str,
     model_id: str | None = None,
     store: Store | None = None,
     complete: Complete = openai_complete,
+    run_id: str | None = None,
 ) -> RunResult:
     cfg = settings()["agent"]
     model_id = model_id or model("agent")
     store = store or Store()
     skills = load_skills()
     session = CaseSession(load_case(case_id), skills, cfg["search_top_k"])
-    run_id = f"{datetime.now():%Y%m%d-%H%M%S}-{case_id}-{uuid.uuid4().hex[:4]}"
+    run_id = run_id or new_run_id(case_id)
     result = RunResult(run_id, case_id, model_id, status="running")
     store.start_run(
         run_id,
         case_id,
         model_id,
         prompt_hash=prompt_hash(),
-        git_sha=_git_sha(),
+        git_sha=git_sha(),
         skill_hashes={name: s.content_hash() for name, s in skills.items()},
         settings=cfg,
     )

@@ -11,4 +11,9 @@ from appeal_agent.config import settings
 @cache
 def client() -> OpenAI:
     cfg = settings()["llm"]
-    return OpenAI(base_url=cfg["base_url"], api_key=os.environ[cfg["api_key_env"]])
+    # The SDK retries rate limits, 5xx and connection errors with exponential backoff.
+    return OpenAI(
+        base_url=cfg["base_url"],
+        api_key=os.environ[cfg["api_key_env"]],
+        max_retries=cfg["max_retries"],
+    )

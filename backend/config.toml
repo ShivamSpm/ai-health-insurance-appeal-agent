@@ -4,6 +4,7 @@
 [llm]
 base_url = "https://api.inference.crusoecloud.com/v1/"
 api_key_env = "CRUSOE_API_KEY"
+max_retries = 5       # provider errors (429, 5xx, network), with exponential backoff
 
 [models]
 agent = "deepseek-ai/DeepSeek-V4-Pro"
@@ -16,6 +17,11 @@ max_retries = 2       # consecutive malformed or invalid tool-call turns allowed
 temperature = 0
 max_tokens = 8000     # per LLM call; reasoning tokens count toward it
 search_top_k = 4
+
+[evals]
+repeats = 3           # passes per case
+concurrency = 4       # cases run in parallel
+reports_dir = "evals/reports"   # relative to the repo root; committed
 
 [storage]
 db_path = "backend/runs.db"   # relative to the repo root; gitignored
