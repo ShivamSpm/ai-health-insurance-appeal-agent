@@ -26,3 +26,14 @@ uv run appeal-agent trace <run_id>          # step-by-step trace; --full, --json
 uv run appeal-agent runs                    # recent runs
 uv run pytest                               # tests, no LLM calls
 ```
+
+## Run evals
+```bash
+cd backend
+uv run appeal-agent eval run --name baseline          # all 40 cases x 3 passes on the main model
+uv run appeal-agent eval list
+uv run appeal-agent eval failures <eval_id> --metric deadline
+uv run appeal-agent eval compare <eval_a> <eval_b>
+uv run appeal-agent eval score <eval_id>              # re-score stored runs after a label change (free)
+```
+Reports are written to `evals/reports/`.
