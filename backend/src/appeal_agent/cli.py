@@ -3,6 +3,11 @@
 uv run appeal-agent run case-031 [case-005 ...] [--model MODEL_ID]
 uv run appeal-agent trace RUN_ID [--full] [--json]
 uv run appeal-agent runs [--limit 20]
+uv run appeal-agent eval run --name baseline [--model M] [--cases ...] [--repeats N]
+uv run appeal-agent eval score|report EVAL_ID
+uv run appeal-agent eval compare EVAL_A EVAL_B
+uv run appeal-agent eval failures EVAL_ID --metric deadline
+uv run appeal-agent eval list
 """
 
 import argparse
@@ -12,6 +17,9 @@ import textwrap
 
 from appeal_agent.agent.loop import run_case
 from appeal_agent.config import model
+from appeal_agent.evals.harness import run_eval, score_eval
+from appeal_agent.evals.metrics import METRICS
+from appeal_agent.evals.report import compare, failures, render_report, write_report
 from appeal_agent.store import Store
 
 
@@ -116,6 +124,65 @@ def cmd_runs(args) -> int:
     return 0
 
 
+def _known_eval(store: Store, eval_id: str) -> bool:
+    if store.get_eval(eval_id) is None:
+        print(f"No eval {eval_id}", file=sys.stderr)
+        return False
+    return True
+
+
+def cmd_eval_run(args) -> int:
+    store = Store()
+    eval_id = run_eval(args.name, store, args.model, args.cases, args.repeats, args.concurrency)
+    path = write_report(eval_id, store)
+    print(f"\n{render_report(eval_id, store)}\nReport written to {path}")
+    return 0
+
+
+def cmd_eval_score(args) -> int:
+    store = Store()
+    if not _known_eval(store, args.eval_id):
+        return 1
+    score_eval(args.eval_id, store)
+    print(f"Re-scored. Report written to {write_report(args.eval_id, store)}")
+    return 0
+
+
+def cmd_eval_report(args) -> int:
+    store = Store()
+    if not _known_eval(store, args.eval_id):
+        return 1
+    print(render_report(args.eval_id, store))
+    return 0
+
+
+def cmd_eval_compare(args) -> int:
+    store = Store()
+    if not (_known_eval(store, args.eval_a) and _known_eval(store, args.eval_b)):
+        return 1
+    print(compare(args.eval_a, args.eval_b, store))
+    return 0
+
+
+def cmd_eval_failures(args) -> int:
+    store = Store()
+    if not _known_eval(store, args.eval_id):
+        return 1
+    print(failures(args.eval_id, args.metric, store))
+    return 0
+
+
+def cmd_eval_list(args) -> int:
+    for e in Store().list_evals(args.limit):
+        summary = json.loads(e["summary"] or "{}")
+        cost = summary.get("_total_cost_usd")
+        print(
+            f"{e['id']}  {e['model']:<34} {e['repeats']} passes  "
+            f"{len(json.loads(e['case_ids']))} cases  {_money(cost)}"
+        )
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="appeal-agent")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -134,6 +201,39 @@ def main() -> int:
     p = sub.add_parser("runs", help="List recent runs.")
     p.add_argument("--limit", type=int, default=20)
     p.set_defaults(func=cmd_runs)
+
+    ev = sub.add_parser("eval", help="Run, score and inspect evals.")
+    esub = ev.add_subparsers(dest="eval_command", required=True)
+
+    p = esub.add_parser("run", help="Run cases (repeated) and score them.")
+    p.add_argument("--name", required=True, help="Short label, e.g. 'baseline'.")
+    p.add_argument("--model", help="Model ID (default: [models].agent in config.toml).")
+    p.add_argument("--cases", nargs="+", help="Case IDs (default: all cases).")
+    p.add_argument("--repeats", type=int, help="Passes per case (default: config).")
+    p.add_argument("--concurrency", type=int, help="Parallel runs (default: config).")
+    p.set_defaults(func=cmd_eval_run)
+
+    p = esub.add_parser("score", help="Re-score stored runs (free; use after label changes).")
+    p.add_argument("eval_id")
+    p.set_defaults(func=cmd_eval_score)
+
+    p = esub.add_parser("report", help="Print an eval's report.")
+    p.add_argument("eval_id")
+    p.set_defaults(func=cmd_eval_report)
+
+    p = esub.add_parser("compare", help="Compare two evals.")
+    p.add_argument("eval_a")
+    p.add_argument("eval_b")
+    p.set_defaults(func=cmd_eval_compare)
+
+    p = esub.add_parser("failures", help="List failing runs for one metric.")
+    p.add_argument("eval_id")
+    p.add_argument("--metric", required=True, choices=[m.name for m in METRICS])
+    p.set_defaults(func=cmd_eval_failures)
+
+    p = esub.add_parser("list", help="List recent evals.")
+    p.add_argument("--limit", type=int, default=20)
+    p.set_defaults(func=cmd_eval_list)
 
     args = parser.parse_args()
     return args.func(args)
