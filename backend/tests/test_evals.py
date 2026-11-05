@@ -1,6 +1,7 @@
 """Eval harness tests. No real LLM calls."""
 
 import json
+import re
 
 import pytest
 
@@ -8,7 +9,7 @@ from appeal_agent.agent.loop import LLMReply, ToolCall
 from appeal_agent.agent.outputs import Findings
 from appeal_agent.evals.harness import load_labels, run_eval, score_eval
 from appeal_agent.evals.metrics import METRICS, RunView, score_case
-from appeal_agent.evals.report import compare, failures, render_report
+from appeal_agent.evals.report import compare, failures, render_report, tally
 from appeal_agent.store import Store
 
 QUALITY = [m.name for m in METRICS if m.higher_is_better]
@@ -168,3 +169,49 @@ def test_eval_end_to_end_with_perfect_model(store):
     assert score_eval(eval_id, store)["deadline"]["mean"] == 1.0
     assert "Case-level changes" in compare(eval_id, eval_id, store)
     assert "better" not in compare(eval_id, eval_id, store)
+
+
+# ---------------- Tally ----------------
+
+
+def _fake_eval(store, rows):
+    store.create_eval("eval-t", name="t", model="m", repeats=1, case_ids=json.dumps([]))
+    store.save_eval_results(
+        "eval-t",
+        [(c, 1, f"run-{c}", m, v, json.dumps(e), json.dumps(a)) for c, m, v, e, a in rows],
+        summary="{}",
+    )
+
+
+def test_tally_groups_clauses_by_section_across_plans(store):
+    _fake_eval(
+        store,
+        [
+            ("case-031", "clause_precision", 0.5, ["ppo-6.4"], ["ppo-6.4", "ppo-10.3"]),
+            ("case-040", "clause_precision", 0.5, ["hmo-7.1", "hmo-8.2"], ["hmo-8.2", "hmo-10.3"]),
+            ("case-005", "clause_precision", 1.0, ["hmo-5.2"], ["hmo-5.2"]),  # not a failure
+        ],
+    )
+    out = tally("eval-t", "clause_precision", store)
+    assert "2 failing runs across 2 cases" in out
+    line = next(ln for ln in out.splitlines() if "10.3" in ln)
+    # item, runs, cases, runs by plan
+    assert re.search(r"10\.3 What to Include.*\s2\s+2\s+hmo 1, ppo 1$", line), line
+    missed = out.split("Missed")[1]
+    assert "7.1 Using Network Providers" in missed
+
+
+def test_tally_pairs_and_deadline_offsets(store):
+    _fake_eval(
+        store,
+        [
+            ("case-013", "denial_basis", 0.0, "hmo-8.2", "hmo-4.1"),
+            ("case-024", "denial_basis", 0.0, "ppo-7.2", "ppo-7.5"),
+            ("case-010", "deadline", 0.0, "2026-11-23", "2026-11-22"),
+            ("case-002", "deadline", 0.0, "2026-09-13", None),
+        ],
+    )
+    out = tally("eval-t", "denial_basis", store)
+    assert '"8.2" -> "4.1"  (1 runs: case-013)' in out
+    out = tally("eval-t", "deadline", store)
+    assert "-1 days" in out and "no answer" in out

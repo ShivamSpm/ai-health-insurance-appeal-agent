@@ -6,7 +6,7 @@ uv run appeal-agent runs [--limit 20]
 uv run appeal-agent eval run --name baseline [--model M] [--cases ...] [--repeats N]
 uv run appeal-agent eval score|report EVAL_ID
 uv run appeal-agent eval compare EVAL_A EVAL_B
-uv run appeal-agent eval failures EVAL_ID --metric deadline
+uv run appeal-agent eval failures EVAL_ID --metric deadline [--tally]
 uv run appeal-agent eval list
 """
 
@@ -19,7 +19,7 @@ from appeal_agent.agent.loop import run_case
 from appeal_agent.config import model
 from appeal_agent.evals.harness import run_eval, score_eval
 from appeal_agent.evals.metrics import METRICS
-from appeal_agent.evals.report import compare, failures, render_report, write_report
+from appeal_agent.evals.report import compare, failures, render_report, tally, write_report
 from appeal_agent.store import Store
 
 
@@ -168,7 +168,7 @@ def cmd_eval_failures(args) -> int:
     store = Store()
     if not _known_eval(store, args.eval_id):
         return 1
-    print(failures(args.eval_id, args.metric, store))
+    print((tally if args.tally else failures)(args.eval_id, args.metric, store))
     return 0
 
 
@@ -229,6 +229,7 @@ def main() -> int:
     p = esub.add_parser("failures", help="List failing runs for one metric.")
     p.add_argument("eval_id")
     p.add_argument("--metric", required=True, choices=[m.name for m in METRICS])
+    p.add_argument("--tally", action="store_true", help="Count the most common wrong answers.")
     p.set_defaults(func=cmd_eval_failures)
 
     p = esub.add_parser("list", help="List recent evals.")

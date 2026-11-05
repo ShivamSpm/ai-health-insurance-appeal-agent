@@ -33,6 +33,7 @@ cd backend
 uv run appeal-agent eval run --name baseline          # all 40 cases x 3 passes on the main model
 uv run appeal-agent eval list
 uv run appeal-agent eval failures <eval_id> --metric deadline
+uv run appeal-agent eval failures <eval_id> --metric clause_precision --tally   # most common wrong answers
 uv run appeal-agent eval compare <eval_a> <eval_b>
 uv run appeal-agent eval score <eval_id>              # re-score stored runs after a label change (free)
 ```
