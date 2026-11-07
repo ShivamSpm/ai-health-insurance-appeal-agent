@@ -90,6 +90,7 @@ Deliberately hard cases:
 | Ambiguous denials | Load the appeal skill for every candidate type. The letter addresses each reading. |
 | Workflow gates | None. The system prompt describes the workflow, and the evals measure whether it was followed. |
 | Letter gaps | Known facts are filled in. Unknown details become `[bracketed placeholders]` for the human. |
+| Whose account to trust (agreed during the Day 3 analysis) | The agent never sees the claim, so it takes the insurer's statements of fact about the claim as true. On plan rules, the plan document governs over the letter. A production version would pull the actual claim. The Day 6 "Before you send" checklist still covers what the letter leaves unsettled. |
 | Limits | 25 steps (one step = one LLM call), 2 retries for malformed or invalid tool calls, temperature 0 |
 | Traces | SQLite from Day 2 (runs and steps tables), with a CLI trace viewer and a JSON export |
 | Cost | Per-token prices from Crusoe's public pricing page, kept in `config.toml` with source and date |
