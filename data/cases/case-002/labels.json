@@ -25,7 +25,6 @@
     "emergency_records"
   ],
   "missing_evidence": [
-    "medical_records",
     "ordering_physician_order"
   ],
   "notice_date": "2026-07-15",

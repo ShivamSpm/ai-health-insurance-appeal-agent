@@ -11,7 +11,7 @@ from datetime import date, timedelta
 from appeal_agent.dataset.plans import PLANS
 from appeal_agent.dataset.scenarios import SCENARIOS, Scenario
 from appeal_agent.dataset.schema import CaseLabels
-from appeal_agent.domain import EVIDENCE, SKILL_FOR_TYPE
+from appeal_agent.domain import EVIDENCE, EVIDENCE_BY_ID, SKILL_FOR_TYPE
 
 SEED = 20261020
 
@@ -53,6 +53,12 @@ def _required(s: Scenario) -> list[str]:
     plan = PLANS[s.plan]
     ids = {e for t in s.denial_types for e in plan.requirements[t]} | set(s.extra_required)
     return [e.id for e in EVIDENCE if e.id in ids]  # vocabulary order, for stable output
+
+
+def _missing(required: list[str], has: list[str]) -> list[str]:
+    """Required items the member doesn't have, directly or through `also_counts_as`."""
+    covered = set(has) | {c for e in has for c in EVIDENCE_BY_ID[e].also_counts_as}
+    return [e for e in required if e not in covered]
 
 
 def _member_has(rng: random.Random, s: Scenario, required: list[str]) -> list[str]:
@@ -98,7 +104,7 @@ def build_cases(seed: int = SEED) -> list[Case]:
             denial_basis_clause_ids=[plan.clause_id(c) for c in s.denial_basis_clauses],
             required_evidence=required,
             member_has=has,
-            missing_evidence=[e for e in required if e not in has],
+            missing_evidence=_missing(required, has),
             notice_date=notice_date,
             appeal_deadline=deadline,
             deadline_rule=rule,

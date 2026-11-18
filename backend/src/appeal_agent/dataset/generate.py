@@ -185,7 +185,7 @@ def main() -> int:
         (DATA_DIR / "plans" / f"{plan.plan_id}.md").write_text(
             render_plan(plan), encoding="utf-8", newline="\n"
         )
-    vocab = [e.model_dump(exclude={"member_phrases"}) for e in EVIDENCE]
+    vocab = [e.model_dump(exclude={"member_phrases"}, exclude_defaults=True) for e in EVIDENCE]
     (DATA_DIR / "evidence_vocabulary.json").write_text(
         json.dumps(vocab, indent=2) + "\n", encoding="utf-8", newline="\n"
     )

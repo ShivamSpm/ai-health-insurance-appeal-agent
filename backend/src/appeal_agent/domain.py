@@ -27,6 +27,8 @@ class EvidenceItem(BaseModel):
     description: str
     # How a member might describe having this item. Used in member notes.
     member_phrases: list[str]
+    # Other items this one also satisfies when the member has it. Labels only.
+    also_counts_as: list[str] = []
 
 
 EVIDENCE: list[EvidenceItem] = [
@@ -116,6 +118,9 @@ EVIDENCE: list[EvidenceItem] = [
             "the discharge paperwork from that visit",
             "the records from the emergency room or urgent care",
         ],
+        # ER, urgent care and discharge records are clinical records of the visit
+        # (case-002, case-014 in the Day 3 error analysis).
+        also_counts_as=["medical_records"],
     ),
     EvidenceItem(
         id="pcp_referral",

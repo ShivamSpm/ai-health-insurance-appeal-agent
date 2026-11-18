@@ -42,7 +42,10 @@
   {
     "id": "emergency_records",
     "name": "Emergency or urgent care records",
-    "description": "Emergency department or urgent care records showing the condition that was treated."
+    "description": "Emergency department or urgent care records showing the condition that was treated.",
+    "also_counts_as": [
+      "medical_records"
+    ]
   },
   {
     "id": "pcp_referral",

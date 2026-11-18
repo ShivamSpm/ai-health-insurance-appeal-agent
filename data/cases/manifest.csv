@@ -1,6 +1,6 @@
 case_id,scenario,plan,hard_kind,denial_types,governing_clauses,denial_basis_clauses,missing_evidence,notice_date,appeal_deadline,appeal_viable
 case-001,cod-place-of-service,ppo,,coding_error,ppo-8.2,ppo-8.2,itemized_bill,2026-09-08,2027-03-12,True
-case-002,pa-emergency-ct,hmo,,prior_authorization,hmo-6.3,hmo-6.1,medical_records|ordering_physician_order,2026-07-15,2026-09-13,True
+case-002,pa-emergency-ct,hmo,,prior_authorization,hmo-6.3,hmo-6.1,ordering_physician_order,2026-07-15,2026-09-13,True
 case-003,oon-emergency-room,hmo,,out_of_network,hmo-7.3,hmo-7.2,emergency_records|eob,2026-08-27,2026-10-26,True
 case-004,mn-spinal-fusion,ppo,,medical_necessity,ppo-5.2,ppo-5.2,medical_records|conservative_treatment_records,2026-07-06,2027-01-07,True
 case-005,contra-letter-deadline,hmo,contradictory,medical_necessity,hmo-5.2,hmo-5.2,letter_of_medical_necessity|medical_records|conservative_treatment_records,2026-09-16,2026-11-15,True
@@ -12,7 +12,7 @@ case-010,oon-ancillary-lab,epo,,out_of_network,epo-7.6,epo-7.2,eob,2026-08-24,20
 case-011,cod-bilateral-duplicate,hmo,,coding_error,hmo-8.4,hmo-8.4,itemized_bill|provider_coding_letter,2026-10-09,2026-12-08,True
 case-012,oon-travel-urgent-care,hmo,,out_of_network,hmo-7.9,hmo-7.2,emergency_records|eob,2026-09-23,2026-11-22,True
 case-013,cod-screening-colonoscopy,hmo,,coding_error,hmo-4.1,hmo-4.1,itemized_bill|provider_coding_letter,2026-07-14,2026-09-12,True
-case-014,pa-facility-change,hmo,,prior_authorization,hmo-6.2,hmo-6.1,medical_records|ordering_physician_order,2026-07-15,2026-09-13,True
+case-014,pa-facility-change,hmo,,prior_authorization,hmo-6.2,hmo-6.1,ordering_physician_order,2026-07-15,2026-09-13,True
 case-015,cod-modifier-25,ppo,,coding_error,ppo-8.3,ppo-8.3,itemized_bill|provider_coding_letter,2026-07-03,2027-01-04,True
 case-016,valid-oon-elective-no-pa,ppo,valid_denial,prior_authorization,ppo-6.1|ppo-6.4,ppo-6.1,medical_records,2026-10-09,2027-04-12,False
 case-017,cod-invalid-icd,epo,,coding_error,epo-8.2,epo-8.2,itemized_bill|corrected_claim,2026-09-11,2026-12-10,True

@@ -61,9 +61,26 @@ def test_evidence_labels_consistent():
         lb = c.labels
         for e in lb.required_evidence + lb.member_has:
             assert e in EVIDENCE_BY_ID
-        assert lb.missing_evidence == [e for e in lb.required_evidence if e not in lb.member_has]
+        covered = set(lb.member_has) | {
+            c for e in lb.member_has for c in EVIDENCE_BY_ID[e].also_counts_as
+        }
+        assert lb.missing_evidence == [e for e in lb.required_evidence if e not in covered]
         for t in lb.denial_types:
             assert set(PLANS[lb.plan_id].requirements[t]) <= set(lb.required_evidence)
+
+
+def test_also_counts_as_links_are_valid():
+    for e in EVIDENCE_BY_ID.values():
+        assert set(e.also_counts_as) <= set(EVIDENCE_BY_ID) - {e.id}, e.id
+
+
+def test_er_records_count_as_medical_records():
+    # case-002 (ER visit) and case-014 (discharge paperwork) from the Day 3 analysis.
+    by_id = {c.case_id: c.labels for c in CASES}
+    for case_id in ["case-002", "case-014"]:
+        lb = by_id[case_id]
+        assert "emergency_records" in lb.member_has
+        assert lb.missing_evidence == ["ordering_physician_order"], case_id
 
 
 def test_unrelated_items_dont_hint_at_denial_type():
