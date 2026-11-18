@@ -30,4 +30,4 @@ A portfolio project the owner is building to get hired at SF AI startups, for **
 - [x] Day 2 (Claude's part): runtime, skills, tools, CLI runner. Decisions in `docs/PLAN.md`. Run with `cd backend && uv run appeal-agent run case-031`; read traces with `uv run appeal-agent trace <run_id>`. Measured on case-031: V4 Pro $0.032/case (11 calls, 86% of input cached), V4.1 Flash $0.008/case.
 - [ ] Day 2 (owner's part): run 5 cases and read the traces
 - [x] Day 3 (Claude's part): eval harness with metrics, reports, compare and failure browser; smoke-tested on 3 cases with V4.1 Flash. Decisions in `docs/PLAN.md`.
-- [ ] Day 3 (owner's part): run the 3-pass baseline (`cd backend && uv run appeal-agent eval run --name baseline`), commit the report, and write `docs/error-analysis/day3.md`
+- [x] Day 3 (owner's part): ran the 3-pass baseline (`eval-20261104-115854-baseline`, V4 Pro, $6.10) and wrote `docs/error-analysis/day3.md` (11 failure categories). Label and dataset fixes from the analysis are committed and the baseline re-scored. Day 6 fixes are listed in Section 6; the owner takes Categories 4, 9 and 10.
