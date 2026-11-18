@@ -35,15 +35,15 @@ class Scenario:
     cites_section: bool | None = None  # None means sampled
     # The clause the insurer relies on, which the letter may cite. Often differs from
     # `clauses`, the clauses the appeal relies on (e.g. denial cites 6.1, appeal uses 6.3).
-    denial_basis: str | None = None
+    # Plan rules the insurer applied. Usually one; an ambiguous letter can rest on two.
+    denial_basis: list[str] | None = None
 
     @property
-    def denial_basis_clause(self) -> str:
+    def denial_basis_clauses(self) -> list[str]:
         if self.denial_basis:
             return self.denial_basis
-        return {"prior_authorization": "6.1", "out_of_network": "7.2"}.get(
-            self.denial_types[0], self.clauses[0]
-        )
+        default = {"prior_authorization": "6.1", "out_of_network": "7.2"}
+        return [default.get(self.denial_types[0], self.clauses[0])]
 
 
 OON_PPO_DECISION = "Processed at the out-of-network benefit level"
@@ -540,7 +540,6 @@ STANDARD: list[Scenario] = [
         key="cod-screening-colonoscopy",
         plan="hmo",
         denial_types=["coding_error"],
-        denial_basis="8.2",
         service="Colonoscopy with polyp removal",
         code="CPT 45385",
         diagnosis="K63.5 Polyp of colon",
@@ -555,7 +554,8 @@ STANDARD: list[Scenario] = [
         "The doctor removed a small polyp during it.",
         notes="4.1: polyp removal during screening is still preventive at no cost; the "
         "claim needed modifier PT or a screening diagnosis. Governing clause is in "
-        "chapter 4, not 8.",
+        "chapter 4, not 8. 4.1 is also the denial basis: the insurer applied its "
+        "rule that the claim must identify the screening.",
     ),
     Scenario(
         key="cod-panel-unbundling",
@@ -612,6 +612,7 @@ HARD: list[Scenario] = [
         "procedure was medically necessary.",
         must_mention=[["authorization"], ["medically necessary", "medical necessity"]],
         clauses=["6.1", "5.1"],
+        denial_basis=["6.1", "5.1"],
         cites_section=False,
         story="Had shoulder pain for most of a year and did several months of physical "
         "therapy. The surgeon's office said they would take care of the insurance side.",
@@ -632,6 +633,8 @@ HARD: list[Scenario] = [
         "is not associated with a participating provider in your plan's network.",
         must_mention=[["provider identifier", "rendering provider", "npi"], ["network"]],
         clauses=["7.1", "8.2"],
+        # One rule under both readings: the insurer applied 7.2, possibly to a wrong provider ID.
+        denial_basis=["7.2"],
         cites_section=False,
         story="Dr. Achebe has been their primary care doctor for three years. She recently "
         "started seeing patients two days a week at a second clinic across town, and this "
@@ -653,6 +656,7 @@ HARD: list[Scenario] = [
         "do not support the procedure as billed.",
         must_mention=[["diagnosis"], ["as billed"]],
         clauses=["8.2", "5.1"],
+        denial_basis=["8.2", "5.1"],
         cites_section=False,
         story="Has had heartburn and trouble swallowing for months, and lost some weight. "
         "The GI doctor did a scope and took a biopsy.",

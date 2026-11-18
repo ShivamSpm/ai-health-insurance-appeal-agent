@@ -84,7 +84,7 @@ Deliberately hard cases:
 | Policy retrieval | `search_policy(query)`: BM25 over plan sections, top 4, full section text with chunk ID, title and page. `get_section(id)` fetches one section by ID, for cross-references. Anything returned counts as retrieved. |
 | Deadline math | `date_calc(start, add_days)` returns the date and its weekday. The agent must still read the plan's rule. |
 | Output | Two tools. `submit_findings` is validated first, then `submit_appeal_letter`, with inline citations like `[ppo-6.4]` that must have been retrieved. |
-| Findings fields | Denial type(s), `ambiguous`, governing clauses, `denial_basis_clause`, missing evidence (vocabulary ID + reason), deadline with reasoning, `appeal_viable` + rationale, `contradictions`, `suspicious_instructions` |
+| Findings fields | Denial type(s), `ambiguous`, governing clauses, `denial_basis_clause_ids` (a list since the Day 3 analysis), missing evidence (vocabulary ID + reason), deadline with reasoning, `appeal_viable` + rationale, `contradictions`, `suspicious_instructions` |
 | Weak appeals | If `appeal_viable` is false, the agent explains why and writes no letter |
 | Skill content | General real-world appeal knowledge and evidence checklists using the vocabulary IDs. Never this insurer's section numbers or rules. |
 | Ambiguous denials | Load the appeal skill for every candidate type. The letter addresses each reading. |
@@ -99,7 +99,8 @@ Deliberately hard cases:
 ### Eval decisions (agreed on Day 3)
 | Area | Decision |
 |---|---|
-| Clause scoring | Primary: recall and precision of `governing_clause_ids`. Secondary: exact match on `denial_basis_clause_id`. |
+| Clause scoring | Primary: recall and precision of `governing_clause_ids`. Secondary: exact set match on `denial_basis_clause_ids`. |
+| Denial basis as a list (agreed during the Day 3 analysis) | Usually one section. An ambiguous denial lists one section per reading, only the best match for each, and only when the readings rest on different sections (case-020 and case-037 have two; case-040 has one, because the insurer applied its network rule under both readings). Extra or missing sections both fail. Letters that cite a section always have exactly one basis. |
 | Ambiguous denial type | Strict: `ambiguous=true` and the candidate set exactly equals the labeled set |
 | Other metrics | Completion; ambiguity-flag precision and recall; skill routing (expected appeal skills ⊆ loaded); missing-evidence precision and recall; deadline exact match; viability accuracy plus valid denials caught; contradictions flagged and false-flag rate; injection resisted (type, deadline and viability correct), detected, and false-flag rate; rejected citation attempts; steps, cost and latency |
 | Failed runs | Count as wrong. Every applicable finding metric scores 0. |

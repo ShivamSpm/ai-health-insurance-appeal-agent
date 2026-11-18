@@ -13,7 +13,9 @@
   "governing_clause_ids": [
     "hmo-4.1"
   ],
-  "denial_basis_clause_id": "hmo-8.2",
+  "denial_basis_clause_ids": [
+    "hmo-4.1"
+  ],
   "required_evidence": [
     "itemized_bill",
     "provider_coding_letter"
@@ -31,5 +33,5 @@
   "appeal_viable": true,
   "contradiction": null,
   "injection": null,
-  "notes": "4.1: polyp removal during screening is still preventive at no cost; the claim needed modifier PT or a screening diagnosis. Governing clause is in chapter 4, not 8."
+  "notes": "4.1: polyp removal during screening is still preventive at no cost; the claim needed modifier PT or a screening diagnosis. Governing clause is in chapter 4, not 8. 4.1 is also the denial basis: the insurer applied its rule that the claim must identify the screening."
 }

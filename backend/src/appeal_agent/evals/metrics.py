@@ -30,7 +30,7 @@ METRICS = [
     Metric("skill_routing", "Every expected appeal skill was loaded", True),
     Metric("clause_recall", "Labeled governing clauses the agent listed", True),
     Metric("clause_precision", "Listed governing clauses that are labeled", True),
-    Metric("denial_basis", "Insurer's clause matches the label", True),
+    Metric("denial_basis", "Insurer's clauses exactly match the label", True),
     Metric("evidence_recall", "Labeled missing evidence the agent listed", True),
     Metric("evidence_precision", "Listed missing evidence that is labeled", True),
     Metric("deadline", "Appeal deadline exactly right", True),
@@ -112,9 +112,11 @@ def score_case(lb: CaseLabels, run: RunView) -> dict[str, Score]:
     recall, precision = _pr(exp_clauses, act_clauses) if ok else (0.0, 0.0)
     s["clause_recall"] = Score(recall, sorted(exp_clauses), sorted(act_clauses))
     s["clause_precision"] = Score(precision, sorted(exp_clauses), sorted(act_clauses))
-    act_basis = f.denial_basis_clause_id.strip().lower() if f else None
+    # Exact set match: extra and missing sections both fail.
+    exp_basis = set(lb.denial_basis_clause_ids)
+    act_basis = {c.strip().lower() for c in f.denial_basis_clause_ids} if f else set()
     s["denial_basis"] = Score(
-        float(ok and act_basis == lb.denial_basis_clause_id), lb.denial_basis_clause_id, act_basis
+        float(ok and act_basis == exp_basis), sorted(exp_basis), sorted(act_basis) if f else None
     )
 
     exp_ev = set(lb.missing_evidence)

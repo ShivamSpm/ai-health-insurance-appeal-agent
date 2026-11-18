@@ -13,7 +13,9 @@
   "governing_clause_ids": [
     "epo-7.4"
   ],
-  "denial_basis_clause_id": "epo-7.2",
+  "denial_basis_clause_ids": [
+    "epo-7.2"
+  ],
   "required_evidence": [
     "network_adequacy_evidence",
     "eob"

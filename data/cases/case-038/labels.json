@@ -13,7 +13,9 @@
   "governing_clause_ids": [
     "epo-6.3"
   ],
-  "denial_basis_clause_id": "epo-6.1",
+  "denial_basis_clause_ids": [
+    "epo-6.1"
+  ],
   "required_evidence": [
     "medical_records",
     "ordering_physician_order",

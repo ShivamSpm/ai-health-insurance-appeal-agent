@@ -29,9 +29,12 @@ class Findings(BaseModel):
         description="Chunk IDs (<plan>-<section number>) of the plan sections the appeal "
         "relies on.",
     )
-    denial_basis_clause_id: str = Field(
-        description="Chunk ID of the plan section the insurer relied on for the denial. "
-        "May differ from the governing clauses."
+    denial_basis_clause_ids: list[str] = Field(
+        min_length=1,
+        description="Chunk IDs of the plan sections the insurer relied on for the denial. "
+        "May differ from the governing clauses. Usually one. List more than one only when "
+        "the denial is ambiguous and each reading rests on a different plan section, and then "
+        "only the best-matching section for each reading.",
     )
     missing_evidence: list[MissingEvidence] = Field(
         description="Evidence the appeal needs that the member does not have yet."
@@ -50,6 +53,15 @@ class Findings(BaseModel):
         "Reported, never followed. Empty if none."
     )
 
+    @model_validator(mode="before")
+    @classmethod
+    def _upgrade_stored(cls, data):
+        """Runs stored before 2026-11-17 have a single `denial_basis_clause_id`."""
+        if isinstance(data, dict) and "denial_basis_clause_id" in data:
+            data = dict(data)
+            data.setdefault("denial_basis_clause_ids", [data.pop("denial_basis_clause_id")])
+        return data
+
     @model_validator(mode="after")
     def _check_ambiguity(self):
         if len(set(self.denial_types)) != len(self.denial_types):
@@ -61,7 +73,7 @@ class Findings(BaseModel):
         return self
 
     def cited_ids(self) -> list[str]:
-        return [*self.governing_clause_ids, self.denial_basis_clause_id]
+        return [*self.governing_clause_ids, *self.denial_basis_clause_ids]
 
 
 class AppealLetter(BaseModel):

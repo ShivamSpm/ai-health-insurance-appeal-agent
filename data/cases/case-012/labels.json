@@ -13,7 +13,9 @@
   "governing_clause_ids": [
     "hmo-7.9"
   ],
-  "denial_basis_clause_id": "hmo-7.2",
+  "denial_basis_clause_ids": [
+    "hmo-7.2"
+  ],
   "required_evidence": [
     "emergency_records",
     "eob"

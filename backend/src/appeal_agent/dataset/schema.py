@@ -21,7 +21,9 @@ class CaseLabels(BaseModel):
     ambiguous: bool
     expected_skills: list[str]
     governing_clause_ids: list[str]  # clauses the appeal relies on
-    denial_basis_clause_id: str  # clause the insurer relies on; the letter may cite it
+    # Plan rules the insurer applied; the letter may cite one. Two only when an ambiguous
+    # letter rests on two rules.
+    denial_basis_clause_ids: list[str]
     required_evidence: list[str]
     member_has: list[str]
     missing_evidence: list[str]

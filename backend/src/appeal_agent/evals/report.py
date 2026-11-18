@@ -193,6 +193,13 @@ def _section(clause_id: str) -> str:
     return clause_id.split("-", 1)[-1]
 
 
+def _sections(ids: str | list[str] | None) -> list[str] | None:
+    """Clause IDs as section numbers. Scores from before 2026-11-17 hold a single ID."""
+    if not ids:
+        return None
+    return [_section(c) for c in ([ids] if isinstance(ids, str) else ids)]
+
+
 def _section_titles() -> dict[str, str]:
     text = (DATA_DIR / "plans" / "ppo.md").read_text(encoding="utf-8")
     return {s.number: s.title for s in parse_plan(text, "ppo")}
@@ -266,8 +273,8 @@ def tally(eval_id: str, metric_name: str, store: Store) -> str:
         pairs, cases = Counter(), defaultdict(set)
         for r in rows:
             exp, act = json.loads(r["expected"]), json.loads(r["actual"])
-            if metric_name == "denial_basis" and act:
-                exp, act = _section(exp), _section(act)
+            if metric_name == "denial_basis":
+                exp, act = _sections(exp), _sections(act)
             key = f"{json.dumps(exp)} -> {json.dumps(act)}"
             pairs[key] += 1
             cases[key].add(r["case_id"])

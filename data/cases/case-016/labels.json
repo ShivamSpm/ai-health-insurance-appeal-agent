@@ -14,7 +14,9 @@
     "ppo-6.1",
     "ppo-6.4"
   ],
-  "denial_basis_clause_id": "ppo-6.1",
+  "denial_basis_clause_ids": [
+    "ppo-6.1"
+  ],
   "required_evidence": [
     "medical_records",
     "ordering_physician_order"

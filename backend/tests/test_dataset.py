@@ -50,7 +50,7 @@ def test_clauses_exist_in_plan():
     for c in CASES:
         plan = PLANS[c.labels.plan_id]
         text = render_plan(plan)
-        for clause_id in [*c.labels.governing_clause_ids, c.labels.denial_basis_clause_id]:
+        for clause_id in [*c.labels.governing_clause_ids, *c.labels.denial_basis_clause_ids]:
             number = clause_id.removeprefix(f"{plan.plan_id}-")
             assert number in section_numbers(plan), clause_id
             assert f"### {number} " in text

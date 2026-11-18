@@ -101,7 +101,10 @@ def _common_problems(text: str, lo: int, hi: int) -> list[str]:
 def letter_body(case: Case, usage: Usage) -> str:
     s = case.scenario
     plan = PLANS[s.plan]
-    section = s.denial_basis_clause
+    basis = s.denial_basis_clauses
+    if case.cites_section and len(basis) != 1:
+        raise ValueError(f"{s.key}: a letter that cites a section needs exactly one basis")
+    section = basis[0]
     cite_rule = (
         f"Refer to Section {section} of the member's plan as the basis for the decision."
         if case.cites_section

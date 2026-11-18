@@ -13,7 +13,9 @@
   "governing_clause_ids": [
     "ppo-7.5"
   ],
-  "denial_basis_clause_id": "ppo-7.2",
+  "denial_basis_clause_ids": [
+    "ppo-7.2"
+  ],
   "required_evidence": [
     "medical_records",
     "eob"

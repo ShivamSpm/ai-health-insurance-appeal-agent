@@ -16,7 +16,10 @@
     "ppo-6.1",
     "ppo-5.1"
   ],
-  "denial_basis_clause_id": "ppo-6.1",
+  "denial_basis_clause_ids": [
+    "ppo-6.1",
+    "ppo-5.1"
+  ],
   "required_evidence": [
     "letter_of_medical_necessity",
     "medical_records",

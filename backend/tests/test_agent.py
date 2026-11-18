@@ -23,7 +23,7 @@ FINDINGS_031 = {
     "denial_types": ["prior_authorization"],
     "ambiguous": False,
     "governing_clause_ids": ["ppo-6.4"],
-    "denial_basis_clause_id": "ppo-6.1",
+    "denial_basis_clause_ids": ["ppo-6.1"],
     "missing_evidence": [{"id": "medical_records", "reason": "Shows the anemia treated."}],
     "appeal_deadline": "2027-02-20",
     "deadline_reasoning": "180 days from receipt, received 5 days after the notice date.",

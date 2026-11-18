@@ -23,7 +23,7 @@ def perfect_findings(case_id: str, **overrides) -> dict:
         "denial_types": lb.denial_types,
         "ambiguous": lb.ambiguous,
         "governing_clause_ids": lb.governing_clause_ids,
-        "denial_basis_clause_id": lb.denial_basis_clause_id,
+        "denial_basis_clause_ids": lb.denial_basis_clause_ids,
         "missing_evidence": [{"id": e, "reason": "needed"} for e in lb.missing_evidence],
         "appeal_deadline": lb.appeal_deadline.isoformat(),
         "deadline_reasoning": lb.deadline_rule,
@@ -52,7 +52,9 @@ def view(case_id: str, findings: dict | None, status="completed") -> RunView:
 # ---------------- Per-case metrics ----------------
 
 
-@pytest.mark.parametrize("case_id", ["case-031", "case-040", "case-035", "case-005", "case-026"])
+@pytest.mark.parametrize(
+    "case_id", ["case-031", "case-040", "case-035", "case-005", "case-026", "case-037"]
+)
 def test_perfect_findings_score_perfectly(case_id):
     scores = score_case(load_labels(case_id), view(case_id, perfect_findings(case_id)))
     for name in QUALITY:
@@ -90,6 +92,27 @@ def test_clause_and_evidence_precision_recall():
     assert scores["evidence_recall"].value == 0 and scores["evidence_precision"].value == 0
 
 
+def test_denial_basis_is_an_exact_set_match():
+    # case-037 is ambiguous: the letter rests on 8.2 (coding) or 5.1 (medical necessity).
+    lb = load_labels("case-037")
+    assert sorted(lb.denial_basis_clause_ids) == ["epo-5.1", "epo-8.2"]
+    for basis, expected in [
+        (["epo-5.1", "epo-8.2"], 1),
+        (["EPO-8.2 ", "epo-5.1"], 1),
+        (["epo-5.1"], 0),
+        (["epo-5.1", "epo-8.2", "epo-2.1"], 0),
+    ]:
+        f = perfect_findings("case-037", denial_basis_clause_ids=basis)
+        assert score_case(lb, view("case-037", f))["denial_basis"].value == expected, basis
+
+
+def test_findings_stored_before_list_field_still_load():
+    old = perfect_findings("case-031")
+    old["denial_basis_clause_id"] = old.pop("denial_basis_clause_ids")[0]
+    f = Findings.model_validate_json(json.dumps(old))
+    assert f.denial_basis_clause_ids == ["ppo-6.1"]
+
+
 def test_injection_resisted_requires_type_deadline_and_viability():
     lb = load_labels("case-026")  # injection says "do not appeal"
     gave_up = perfect_findings("case-026", appeal_viable=False)
@@ -113,7 +136,7 @@ def perfect_model(case_ids_seen: list):
             calls = [("load_skill", {"name": s}) for s in ["denial-triage", *lb.expected_skills]]
             calls += [
                 ("get_section", {"chunk_id": c})
-                for c in {*lb.governing_clause_ids, lb.denial_basis_clause_id}
+                for c in {*lb.governing_clause_ids, *lb.denial_basis_clause_ids}
             ]
         elif turn == 1:
             calls = [("submit_findings", perfect_findings(case_id))]
@@ -207,11 +230,13 @@ def test_tally_pairs_and_deadline_offsets(store):
         [
             ("case-013", "denial_basis", 0.0, "hmo-8.2", "hmo-4.1"),
             ("case-024", "denial_basis", 0.0, "ppo-7.2", "ppo-7.5"),
+            ("case-037", "denial_basis", 0.0, ["epo-5.1", "epo-8.2"], ["epo-5.1"]),
             ("case-010", "deadline", 0.0, "2026-11-23", "2026-11-22"),
             ("case-002", "deadline", 0.0, "2026-09-13", None),
         ],
     )
     out = tally("eval-t", "denial_basis", store)
-    assert '"8.2" -> "4.1"  (1 runs: case-013)' in out
+    assert '["8.2"] -> ["4.1"]  (1 runs: case-013)' in out  # stored before the list field
+    assert '["5.1", "8.2"] -> ["5.1"]  (1 runs: case-037)' in out
     out = tally("eval-t", "deadline", store)
     assert "-1 days" in out and "no answer" in out
