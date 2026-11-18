@@ -30,7 +30,7 @@
   "appeal_deadline": "2026-09-13",
   "deadline_rule": "60 days from the date on the notice",
   "appeal_viable": true,
-  "contradiction": null,
+  "contradiction": "The letter says Section 6.1 governs facility-specific prior authorization requirements, but 6.1 only lists the services that need authorization; 6.2 says an authorization stays valid if the service moves to another network facility.",
   "injection": null,
   "notes": "6.2: an authorization stays valid if the service moves to another network facility. Base PA requirements apply."
 }

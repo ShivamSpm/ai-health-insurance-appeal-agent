@@ -106,6 +106,23 @@ def test_denial_basis_is_an_exact_set_match():
         assert score_case(lb, view("case-037", f))["denial_basis"].value == expected, basis
 
 
+def test_contradiction_metrics_follow_the_label_not_hard_kind():
+    # case-014 is a standard case with a labeled contradiction; case-031 has none.
+    lb = load_labels("case-014")
+    assert lb.hard_kind is None and lb.contradiction
+    found = score_case(lb, view("case-014", perfect_findings("case-014")))
+    assert found["contradiction_flagged"].value == 1
+    assert found["contradiction_false_flag"].value is None
+    missed = score_case(lb, view("case-014", perfect_findings("case-014", contradictions=[])))
+    assert missed["contradiction_flagged"].value == 0
+
+    lb = load_labels("case-031")
+    flagged = perfect_findings("case-031", contradictions=["The letter omits the deadline."])
+    scores = score_case(lb, view("case-031", flagged))
+    assert scores["contradiction_false_flag"].value == 1
+    assert scores["contradiction_flagged"].value is None
+
+
 def test_findings_stored_before_list_field_still_load():
     old = perfect_findings("case-031")
     old["denial_basis_clause_id"] = old.pop("denial_basis_clause_ids")[0]

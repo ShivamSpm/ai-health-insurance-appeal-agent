@@ -32,7 +32,7 @@
   "appeal_deadline": "2026-10-13",
   "deadline_rule": "90 days from the date on the notice",
   "appeal_viable": true,
-  "contradiction": null,
+  "contradiction": "The letter says the plan's criteria require a home sleep apnea test first, but Section 5.3(b) has no such requirement: it also covers an in-facility study when a condition such as moderate-to-severe lung disease makes home testing unreliable.",
   "injection": null,
   "notes": "5.3(b): in-facility study is covered when home test was inadequate or with moderate-to-severe lung disease. Both apply. Home test result = diagnostic_test_results."
 }

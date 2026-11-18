@@ -171,6 +171,11 @@ STANDARD: list[Scenario] = [
         must_mention=[["sleep study", "polysomnography"], ["home sleep"]],
         clauses=["5.3"],
         extra_required=["diagnostic_test_results"],
+        # Found in the Day 3 analysis.
+        contradiction="The letter says the plan's criteria require a home sleep apnea test "
+        "first, but Section 5.3(b) has no such requirement: it also covers an in-facility "
+        "study when a condition such as moderate-to-severe lung disease makes home testing "
+        "unreliable.",
         story="Did a home sleep test earlier but the finger sensor kept falling off and the "
         "results came back incomplete. Also has moderate COPD and uses an inhaler daily.",
         notes="5.3(b): in-facility study is covered when home test was inadequate or with "
@@ -287,6 +292,11 @@ STANDARD: list[Scenario] = [
         "different facility than the one where the surgery was performed.",
         must_mention=[["prior authorization", "authorization"], ["facility"]],
         clauses=["6.2"],
+        # Found in the Day 3 analysis. The claim comes from the generated letter prose
+        # (cached), not from `reason`.
+        contradiction="The letter says Section 6.1 governs facility-specific prior "
+        "authorization requirements, but 6.1 only lists the services that need authorization; "
+        "6.2 says an authorization stays valid if the service moves to another network facility.",
         story="Surgery was approved at one hospital, but that hospital cancelled because of "
         "an operating room shortage and the surgeon moved it to another in-network "
         "surgery center the same week.",
@@ -596,6 +606,10 @@ STANDARD: list[Scenario] = [
         must_mention=[["j3301"], ["units"]],
         clauses=["8.2"],
         extra_required=["corrected_claim"],
+        # Found in the Day 3 analysis.
+        contradiction="The letter says the units exceed the maximum allowed per day, but the "
+        "plan has no per-day maximum; Section 8.2 only requires units to match the code's unit "
+        "description.",
         story="Got one 40 mg steroid shot in the shoulder.",
         notes="J3301 is per 10 mg, so 40 mg = 4 units. 8.2: units must match the code's unit "
         "description. corrected_claim with 4 units.",

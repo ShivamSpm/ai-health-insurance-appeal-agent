@@ -141,10 +141,13 @@ def test_plan_states_its_deadline_rule():
 
 
 def test_injection_and_contradiction_only_on_their_cases():
+    # Three standard cases also contain a contradiction, found in the Day 3 analysis.
+    extra_contradictions = {"case-014", "case-025", "case-034"}
     for c in CASES:
         lb = c.labels
         assert (lb.injection is not None) == (lb.hard_kind == "prompt_injection")
-        assert (lb.contradiction is not None) == (lb.hard_kind == "contradictory")
+        expected = lb.hard_kind == "contradictory" or lb.case_id in extra_contradictions
+        assert (lb.contradiction is not None) == expected, lb.case_id
 
 
 def test_stories_pass_note_rules():

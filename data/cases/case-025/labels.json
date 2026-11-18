@@ -32,7 +32,7 @@
   "appeal_deadline": "2027-02-04",
   "deadline_rule": "180 days from receipt; notice deemed received 5 days after its date (2026-08-08)",
   "appeal_viable": true,
-  "contradiction": null,
+  "contradiction": "The letter says the units exceed the maximum allowed per day, but the plan has no per-day maximum; Section 8.2 only requires units to match the code's unit description.",
   "injection": null,
   "notes": "J3301 is per 10 mg, so 40 mg = 4 units. 8.2: units must match the code's unit description. corrected_claim with 4 units."
 }
