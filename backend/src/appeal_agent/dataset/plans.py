@@ -196,10 +196,13 @@ def _money(n: int) -> str:
 def _sections(p: Plan) -> list[tuple[str, str, list[tuple[str, str, str]]]]:
     """Chapters as (number, title, [(section number, title, body)])."""
     oon_benefit = (
-        f"Out-of-network care is covered at {100 - p.oon_coinsurance}% after a separate "
-        f"{_money(p.oon_deductible)} out-of-network deductible. Out-of-network providers "
-        "may bill you for the difference between their charge and our allowed amount "
-        "(balance billing)."
+        "Care from a provider who is not in our network on the date of service is paid at "
+        "the out-of-network benefit level, except as described in Sections 7.3 through 7.7 "
+        "and 7.9. This includes a provider whose network contract has ended. At the "
+        f"out-of-network benefit level, care is covered at {100 - p.oon_coinsurance}% after "
+        f"a separate {_money(p.oon_deductible)} out-of-network deductible, and out-of-network "
+        "providers may bill you for the difference between their charge and our allowed "
+        "amount (balance billing)."
         if p.oon_deductible
         else "This plan does not cover care from out-of-network providers, except as "
         "described in Sections 7.3 through 7.7 and 7.9. If you choose to see an "

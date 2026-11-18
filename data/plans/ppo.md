@@ -158,7 +158,7 @@ You pay the least when you use network providers. Check the online provider dire
 
 ### 7.2 Out-of-Network Coverage
 
-Out-of-network care is covered at 60% after a separate $3,000 out-of-network deductible. Out-of-network providers may bill you for the difference between their charge and our allowed amount (balance billing).
+Care from a provider who is not in our network on the date of service is paid at the out-of-network benefit level, except as described in Sections 7.3 through 7.7 and 7.9. This includes a provider whose network contract has ended. At the out-of-network benefit level, care is covered at 60% after a separate $3,000 out-of-network deductible, and out-of-network providers may bill you for the difference between their charge and our allowed amount (balance billing).
 
 ### 7.3 Emergency Services
 
