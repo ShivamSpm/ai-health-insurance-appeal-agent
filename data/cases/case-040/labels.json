@@ -20,6 +20,7 @@
     "hmo-7.2"
   ],
   "required_evidence": [
+    "network_status_proof",
     "eob",
     "itemized_bill",
     "provider_coding_letter"
@@ -30,6 +31,7 @@
     "provider_coding_letter"
   ],
   "missing_evidence": [
+    "network_status_proof",
     "itemized_bill"
   ],
   "notice_date": "2026-07-08",
@@ -38,5 +40,5 @@
   "appeal_viable": true,
   "contradiction": null,
   "injection": null,
-  "notes": "Could be a true network issue (7.1 ties status to location) or a billing error (wrong provider ID, 8.2). Both are plausible."
+  "notes": "Could be a true network issue (7.1 ties status to location) or a billing error (wrong provider ID, 8.2). Both are plausible. network_status_proof (the directory listing for the second location) supports the network reading."
 }

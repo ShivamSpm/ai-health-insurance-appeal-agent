@@ -74,6 +74,20 @@ def test_also_counts_as_links_are_valid():
         assert set(e.also_counts_as) <= set(EVIDENCE_BY_ID) - {e.id}, e.id
 
 
+def test_added_required_is_missing_and_keeps_member_notes():
+    # Items added after the dataset was frozen don't change what the member has.
+    by_id = {c.case_id: c.labels for c in CASES}
+    for case_id, item in [("case-015", "medical_records"), ("case-040", "network_status_proof")]:
+        lb = by_id[case_id]
+        assert item in lb.required_evidence and item in lb.missing_evidence, case_id
+    assert by_id["case-015"].member_has == ["ordering_physician_order"]
+    assert by_id["case-040"].member_has == [
+        "letter_of_medical_necessity",
+        "eob",
+        "provider_coding_letter",
+    ]
+
+
 def test_er_records_count_as_medical_records():
     # case-002 (ER visit) and case-014 (discharge paperwork) from the Day 3 analysis.
     by_id = {c.case_id: c.labels for c in CASES}

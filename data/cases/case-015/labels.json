@@ -17,6 +17,7 @@
     "ppo-8.3"
   ],
   "required_evidence": [
+    "medical_records",
     "itemized_bill",
     "provider_coding_letter"
   ],
@@ -24,6 +25,7 @@
     "ordering_physician_order"
   ],
   "missing_evidence": [
+    "medical_records",
     "itemized_bill",
     "provider_coding_letter"
   ],
@@ -33,5 +35,5 @@
   "appeal_viable": true,
   "contradiction": null,
   "injection": null,
-  "notes": "8.3: separate E/M is payable with modifier 25; the diabetes visit was separately identifiable. Provider needs to correct the claim."
+  "notes": "8.3: separate E/M is payable with modifier 25; the diabetes visit was separately identifiable. Provider needs to correct the claim. medical_records (the office notes) prove the separate evaluation."
 }

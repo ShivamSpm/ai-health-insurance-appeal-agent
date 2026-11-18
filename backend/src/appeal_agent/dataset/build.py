@@ -49,9 +49,15 @@ def _weekday_between(rng: random.Random, start: date, end: date) -> date:
             return d
 
 
-def _required(s: Scenario) -> list[str]:
+def _required(s: Scenario, added: bool = True) -> list[str]:
+    """The plan's list for the denial types plus the scenario's extras.
+
+    `added=False` leaves out `added_required`, for drawing what the member has.
+    """
     plan = PLANS[s.plan]
     ids = {e for t in s.denial_types for e in plan.requirements[t]} | set(s.extra_required)
+    if added:
+        ids |= set(s.added_required)
     return [e.id for e in EVIDENCE if e.id in ids]  # vocabulary order, for stable output
 
 
@@ -89,8 +95,8 @@ def build_cases(seed: int = SEED) -> list[Case]:
         notice_date = _weekday_between(rng, date(2026, 7, 1), date(2026, 10, 9))
         service_date = notice_date - timedelta(days=rng.randint(12, 45))
         deadline, rule = plan.appeal_deadline(notice_date)
+        has = _member_has(rng, s, _required(s, added=False))
         required = _required(s)
-        has = _member_has(rng, s, required)
         cites = s.cites_section if s.cites_section is not None else rng.random() < 0.5
         labels = CaseLabels(
             case_id=case_id,

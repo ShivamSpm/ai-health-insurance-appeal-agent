@@ -25,6 +25,10 @@ class Scenario:
     story: str
     notes: str
     extra_required: list[str] = field(default_factory=list)
+    # Required items added after the dataset was frozen (Day 3 error analysis). They are
+    # added after member_has is drawn, so the seeded draws, and every member note, stay
+    # the same as in the stored runs.
+    added_required: list[str] = field(default_factory=list)
     has: list[str] | None = None  # fixed member_has; None means sampled
     hard_kind: str | None = None
     viable: bool = True
@@ -33,9 +37,9 @@ class Scenario:
     letter_deadline_sentence: str | None = None  # wrong deadline stated in the letter
     injection: str | None = None
     cites_section: bool | None = None  # None means sampled
-    # The clause the insurer relies on, which the letter may cite. Often differs from
-    # `clauses`, the clauses the appeal relies on (e.g. denial cites 6.1, appeal uses 6.3).
-    # Plan rules the insurer applied. Usually one; an ambiguous letter can rest on two.
+    # Plan rules the insurer applied, which the letter may cite. Often differs from `clauses`,
+    # the clauses the appeal relies on (e.g. denial cites 6.1, appeal uses 6.3). Usually one;
+    # an ambiguous letter can rest on two.
     denial_basis: list[str] | None = None
 
     @property
@@ -480,10 +484,13 @@ STANDARD: list[Scenario] = [
         "significant, separately identifiable evaluation.",
         must_mention=[["99214"], ["11102"]],
         clauses=["8.3"],
+        # The office notes prove the separately identifiable evaluation (Day 3 analysis).
+        added_required=["medical_records"],
         story="Went in for a scheduled diabetes check-up, where the doctor adjusted their "
         "medication. At the end the doctor noticed an odd mole and biopsied it.",
         notes="8.3: separate E/M is payable with modifier 25; the diabetes visit was "
-        "separately identifiable. Provider needs to correct the claim.",
+        "separately identifiable. Provider needs to correct the claim. medical_records "
+        "(the office notes) prove the separate evaluation.",
     ),
     Scenario(
         key="cod-bilateral-duplicate",
@@ -635,12 +642,16 @@ HARD: list[Scenario] = [
         clauses=["7.1", "8.2"],
         # One rule under both readings: the insurer applied 7.2, possibly to a wrong provider ID.
         denial_basis=["7.2"],
+        # The directory listing for the second location is the proof for the network
+        # reading (7.1), from the Day 3 analysis.
+        added_required=["network_status_proof"],
         cites_section=False,
         story="Dr. Achebe has been their primary care doctor for three years. She recently "
         "started seeing patients two days a week at a second clinic across town, and this "
         "visit was at the new location.",
         notes="Could be a true network issue (7.1 ties status to location) or a billing "
-        "error (wrong provider ID, 8.2). Both are plausible.",
+        "error (wrong provider ID, 8.2). Both are plausible. network_status_proof (the "
+        "directory listing for the second location) supports the network reading.",
     ),
     Scenario(
         key="amb-coding-or-mn",
