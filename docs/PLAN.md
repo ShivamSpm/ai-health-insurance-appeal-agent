@@ -117,6 +117,18 @@ Deliberately hard cases:
 | Who runs it | Claude builds and smoke-tests the harness on 2–3 cases with the cheap model; the owner runs the 3-pass baseline |
 | HMO appeal window | Stays at 60 days (fictional plan), by the owner's choice |
 
+### App decisions (agreed on Day 4)
+| Area | Decision |
+|---|---|
+| Inputs | The inbox lists the 40 dataset cases. A new case takes a pasted or uploaded denial letter and member note (text or Markdown) and one of the 3 Halcyon plans. A plan document is fixed per insurer, so no plan upload and no generic plan parser yet. |
+| Live and replay | Both. Any stored run can be replayed through the same streaming UI (the 120 baseline runs cost nothing to show), and live runs can be started locally. The password gate for live runs comes with deployment on Day 7. |
+| Streaming | Server-sent events that tail SQLite. A live run executes in a background worker and writes steps to SQLite as before; the SSE endpoint streams new steps from the database. One code path for live and replay, it survives a page reload, and nothing is lost if the browser disconnects. |
+| Draft edits | Each save stores a version in SQLite. The UI diffs a version against the agent's draft and offers copy and Markdown download. |
+| Trace split | Day 4: a live step timeline in the workspace (skills loaded, tool calls, tokens, latency, cost, running totals). Day 5: the detailed trace view (full prompts and outputs, reasoning, two runs side by side) with the eval dashboard. |
+| API types | TypeScript types generated from FastAPI's OpenAPI schema with openapi-typescript. Next.js App Router, npm. |
+| API access | The browser calls FastAPI directly (URL from an env variable), with CORS allowing the frontend's origin, so SSE isn't buffered by a proxy. |
+| Tests | pytest for every endpoint, including SSE and replay, with the fake model (no LLM calls). Frontend: typecheck, lint, and one Playwright smoke test of the main flow. |
+
 ### Evals
 - **Code-checked:** denial-type accuracy, skill-routing accuracy, clause retrieval recall, citation validity, deadline accuracy, output validity, steps per case.
 - **LLM-as-judge:** appeal quality against a rubric (grounded, addresses the denial reason, no invented facts). Calibrated against about 15 letters hand-labeled by the owner; the agreement rate is reported.
