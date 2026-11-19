@@ -5,16 +5,18 @@ Upload a health insurance denial letter and your plan document. The agent works 
 Work in progress. See [docs/PLAN.md](docs/PLAN.md) for the design.
 
 ## Layout
-- `backend/`: Python agent runtime, dataset generator, evals (FastAPI comes later)
+- `backend/`: Python agent runtime, dataset generator, evals, and the FastAPI API for the UI
 - `data/`: synthetic plans and cases from a fictional insurer, with ground-truth labels. No real patient data.
 - `skills/`: agent skills (SKILL.md format)
-- `frontend/`: Next.js review UI (coming later)
+- `frontend/`: Next.js review UI (case inbox and case workspace)
 
 ## Setup
 ```bash
 cp .env.example .env   # add your Crusoe API key
 cd backend
 uv sync
+cd ../frontend
+npm install
 ```
 
 ## Run the agent
@@ -38,3 +40,22 @@ uv run appeal-agent eval compare <eval_a> <eval_b>
 uv run appeal-agent eval score <eval_id>              # re-score stored runs after a label change (free)
 ```
 Reports are written to `evals/reports/`.
+
+## Run the review UI
+Two terminals:
+```bash
+cd backend
+uv run appeal-agent serve                   # API on http://127.0.0.1:8000
+```
+```bash
+cd frontend
+npm run dev                                 # UI on http://localhost:3000
+```
+Open a case to replay a stored run (free) or start a live run (calls the model, a few cents). Findings link each plan citation to its section, and edits to the draft are saved as versions with a diff against the agent's draft. Set `NEXT_PUBLIC_API_URL` in `frontend/.env.local` if the API runs elsewhere.
+
+```bash
+cd frontend
+npm run typecheck && npm run lint
+npm run test:e2e                            # Playwright smoke test; own API on a fresh DB with the scripted model, no LLM calls
+npm run gen:api                             # regenerate TypeScript types after changing API models
+```

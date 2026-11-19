@@ -31,3 +31,5 @@ A portfolio project the owner is building to get hired at SF AI startups, for **
 - [ ] Day 2 (owner's part): run 5 cases and read the traces
 - [x] Day 3 (Claude's part): eval harness with metrics, reports, compare and failure browser; smoke-tested on 3 cases with V4.1 Flash. Decisions in `docs/PLAN.md`.
 - [x] Day 3 (owner's part): ran the 3-pass baseline (`eval-20261104-115854-baseline`, V4 Pro, $6.10) and wrote `docs/error-analysis/day3.md` (11 failure categories). Label and dataset fixes from the analysis are committed and the baseline re-scored. Day 6 fixes are listed in Section 6; the owner takes Categories 4, 9 and 10.
+- [x] Day 4 (Claude's part): FastAPI API (cases, live runs, SSE that tails SQLite for live and replay, draft versions) and the Next.js case inbox and workspace. Decisions in `docs/PLAN.md`. Run with `cd backend && uv run appeal-agent serve` and `cd frontend && npm run dev`; tests: `uv run pytest`, `npm run typecheck`, `npm run lint`, `npm run test:e2e`.
+- [ ] Day 4 (owner's part): test the flow and give UX feedback
