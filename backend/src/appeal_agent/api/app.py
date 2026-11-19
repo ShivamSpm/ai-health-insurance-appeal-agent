@@ -25,10 +25,12 @@ from fastapi.responses import StreamingResponse
 from appeal_agent import cases
 from appeal_agent.agent.loop import Complete, new_run_id, openai_complete, run_case
 from appeal_agent.agent.policy import parse_plan
+from appeal_agent.agent.scripted import scripted_model
 from appeal_agent.api.models import (
     CaseDetail,
     CaseSummary,
     DraftVersion,
+    EvidenceInfo,
     ModelOption,
     NewCase,
     NewDraft,
@@ -40,6 +42,7 @@ from appeal_agent.api.models import (
 )
 from appeal_agent.config import model, settings
 from appeal_agent.dataset.plans import PLANS
+from appeal_agent.domain import EVIDENCE
 from appeal_agent.store import Store
 
 log = logging.getLogger(__name__)
@@ -52,10 +55,14 @@ def _sse(event: str, data: dict, event_id: int | None = None) -> str:
 
 def create_app(
     store_path: Path | None = None,
-    complete: Complete = openai_complete,
+    complete: Complete | None = None,
     live_runs: bool | None = None,
 ) -> FastAPI:
     cfg = settings()["api"]
+    # APPEAL_FAKE_MODEL=1 swaps in the scripted model (no LLM calls), for UI tests.
+    fake_model = complete is None and os.environ.get("APPEAL_FAKE_MODEL") == "1"
+    if complete is None:
+        complete = scripted_model() if fake_model else openai_complete
     live_runs = cfg["live_runs"] if live_runs is None else live_runs
     origins = os.environ.get("APPEAL_CORS_ORIGINS")
     executor = ThreadPoolExecutor(max_workers=cfg["run_workers"], thread_name_prefix="run")
@@ -100,7 +107,11 @@ def create_app(
 
     @app.get("/api/health")
     def health() -> dict:
-        return {"ok": True, "live_runs": live_runs}
+        return {"ok": True, "live_runs": live_runs, "fake_model": fake_model}
+
+    @app.get("/api/evidence")
+    def list_evidence() -> list[EvidenceInfo]:
+        return [EvidenceInfo(id=e.id, name=e.name, description=e.description) for e in EVIDENCE]
 
     @app.get("/api/models")
     def list_models() -> list[ModelOption]:
@@ -211,7 +222,8 @@ def create_app(
         last_event_id: Annotated[int | None, Header()] = None,
     ) -> StreamingResponse:
         """Server-sent events: `run` (summary), `step` (one per step, id = step index),
-        then `done` (final summary with findings and letter) or `error`."""
+        then `done` (final summary with findings and letter) or `stream_error`.
+        (Not `error`: EventSource uses that name for its own connection errors.)"""
         return StreamingResponse(
             _events(run_id, replay, speed, last_event_id or 0),
             media_type="text/event-stream",
@@ -229,7 +241,7 @@ def create_app(
                 await asyncio.sleep(cfg["poll_s"])
                 row = store.get_run(run_id)
             if row is None:
-                yield _sse("error", {"message": f"No run {run_id}"})
+                yield _sse("stream_error", {"message": f"No run {run_id}"})
                 return
             yield _sse("run", RunSummary.from_row(row).model_dump(mode="json"))
 
@@ -257,7 +269,7 @@ def create_app(
                 if new:
                     last_change = now
                 elif now - last_change > cfg["stale_after_s"]:
-                    yield _sse("error", {"message": "The run stopped making progress."})
+                    yield _sse("stream_error", {"message": "The run stopped making progress."})
                     return
                 if now - last_ping > 15:  # keep proxies from closing an idle stream
                     yield ": ping\n\n"

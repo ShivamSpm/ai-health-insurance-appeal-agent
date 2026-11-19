@@ -51,6 +51,12 @@ class NewCase(BaseModel):
     title: str | None = Field(default=None, max_length=120)
 
 
+class EvidenceInfo(BaseModel):
+    id: str
+    name: str
+    description: str
+
+
 class ModelOption(BaseModel):
     id: str
     role: Literal["agent", "agent_cheap"]

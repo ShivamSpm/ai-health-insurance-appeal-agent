@@ -181,6 +181,14 @@ def test_unknown_run(make_client):
     assert client.get("/api/runs/nope").status_code == 404
 
 
+def test_evidence_vocabulary(make_client):
+    vocab = make_client().get("/api/evidence").json()
+    assert len(vocab) == 16
+    assert {"id": "eob", "name": "Explanation of Benefits"}.items() <= next(
+        v for v in vocab if v["id"] == "eob"
+    ).items()
+
+
 # ---------------- Drafts ----------------
 
 

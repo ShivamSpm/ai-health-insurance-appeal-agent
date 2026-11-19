@@ -8,7 +8,8 @@ uv run appeal-agent eval score|report EVAL_ID
 uv run appeal-agent eval compare EVAL_A EVAL_B
 uv run appeal-agent eval failures EVAL_ID --metric deadline [--tally]
 uv run appeal-agent eval list
-uv run appeal-agent serve [--port 8000] [--reload]
+uv run appeal-agent serve [--port 8000] [--reload] [--fake-model] [--db PATH]
+uv run appeal-agent openapi > ../frontend/openapi.json
 """
 
 import argparse
@@ -185,7 +186,15 @@ def cmd_eval_list(args) -> int:
 
 
 def cmd_serve(args) -> int:
+    import os
+
     import uvicorn
+
+    # Passed by env so they also reach the reloader's worker process.
+    if args.fake_model:
+        os.environ["APPEAL_FAKE_MODEL"] = "1"
+    if args.db:
+        os.environ["APPEAL_DB_PATH"] = args.db
 
     uvicorn.run(
         "appeal_agent.api.app:create_app",
@@ -194,6 +203,13 @@ def cmd_serve(args) -> int:
         port=args.port,
         reload=args.reload,
     )
+    return 0
+
+
+def cmd_openapi(args) -> int:
+    from appeal_agent.api.app import create_app
+
+    print(json.dumps(create_app(live_runs=False).openapi(), indent=2))
     return 0
 
 
@@ -254,7 +270,16 @@ def main() -> int:
     p.add_argument("--host", default="127.0.0.1")
     p.add_argument("--port", type=int, default=8000)
     p.add_argument("--reload", action="store_true", help="Restart on code changes (dev).")
+    p.add_argument(
+        "--fake-model",
+        action="store_true",
+        help="Use the scripted model instead of the LLM (end-to-end tests; dataset cases only).",
+    )
+    p.add_argument("--db", help="SQLite file to use instead of the configured one.")
     p.set_defaults(func=cmd_serve)
+
+    p = sub.add_parser("openapi", help="Print the API's OpenAPI schema (for frontend types).")
+    p.set_defaults(func=cmd_openapi)
 
     args = parser.parse_args()
     return args.func(args)

@@ -1,57 +1,11 @@
-"""Shared test doubles: findings that match the labels, and a scripted model. No LLM calls."""
+"""Shared test doubles. The scripted model itself lives in the package, so that
+`appeal-agent serve --fake-model` can use it for end-to-end UI tests."""
 
-import json
+from appeal_agent.agent.scripted import perfect_findings, scripted_model
 
-from appeal_agent.agent.loop import LLMReply, ToolCall
-from appeal_agent.evals.harness import load_labels
-
-
-def perfect_findings(case_id: str, **overrides) -> dict:
-    """Findings that match a case's labels exactly."""
-    lb = load_labels(case_id)
-    f = {
-        "denial_types": lb.denial_types,
-        "ambiguous": lb.ambiguous,
-        "governing_clause_ids": lb.governing_clause_ids,
-        "denial_basis_clause_ids": lb.denial_basis_clause_ids,
-        "missing_evidence": [{"id": e, "reason": "needed"} for e in lb.missing_evidence],
-        "appeal_deadline": lb.appeal_deadline.isoformat(),
-        "deadline_reasoning": lb.deadline_rule,
-        "appeal_viable": lb.appeal_viable,
-        "viability_rationale": "per labels",
-        "contradictions": [lb.contradiction] if lb.contradiction else [],
-        "suspicious_instructions": [lb.injection] if lb.injection else [],
-    }
-    return {**f, **overrides}
+__all__ = ["perfect_findings", "perfect_model"]
 
 
 def perfect_model(case_ids_seen: list):
     """A fake model that reads the case ID from the task and answers from the labels."""
-
-    def complete(model_id, messages, tools, cfg):
-        case_id = messages[1]["content"].split("case ")[1].split()[0]
-        lb = load_labels(case_id)
-        turn = sum(m["role"] == "assistant" for m in messages)
-        if turn == 0:
-            case_ids_seen.append(case_id)
-            calls = [("load_skill", {"name": s}) for s in ["denial-triage", *lb.expected_skills]]
-            calls += [
-                ("get_section", {"chunk_id": c})
-                for c in {*lb.governing_clause_ids, *lb.denial_basis_clause_ids}
-            ]
-        elif turn == 1:
-            calls = [("submit_findings", perfect_findings(case_id))]
-        else:
-            cite = lb.governing_clause_ids[0]
-            calls = [("submit_appeal_letter", {"letter": "I appeal. " * 30 + f"[{cite}]"})]
-        return LLMReply(
-            None,
-            [ToolCall(f"c{i}", n, json.dumps(a)) for i, (n, a) in enumerate(calls)],
-            None,
-            "tool_calls",
-            1000,
-            100,
-            800,
-        )
-
-    return complete
+    return scripted_model(case_ids_seen)

@@ -1,6 +1,7 @@
 """SQLite storage for agent runs and their steps (LLM calls and tool calls)."""
 
 import json
+import os
 import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
@@ -97,7 +98,11 @@ def _now() -> str:
 
 class Store:
     def __init__(self, path: Path | None = None):
-        path = path or REPO_ROOT / settings()["storage"]["db_path"]
+        # APPEAL_DB_PATH points a server at its own database (end-to-end tests).
+        env_path = os.environ.get("APPEAL_DB_PATH")
+        path = path or (
+            Path(env_path) if env_path else REPO_ROOT / settings()["storage"]["db_path"]
+        )
         path.parent.mkdir(parents=True, exist_ok=True)
         self.path = path
         # One Store per thread or request; WAL and a busy timeout let parallel runs write.
