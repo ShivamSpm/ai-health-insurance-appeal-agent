@@ -81,6 +81,13 @@ CREATE TABLE IF NOT EXISTS eval_results (
     actual TEXT,                   -- JSON
     PRIMARY KEY (eval_id, case_id, pass, metric)
 );
+CREATE TABLE IF NOT EXISTS draft_versions (
+    run_id TEXT NOT NULL REFERENCES runs(id),
+    version INTEGER NOT NULL,      -- 1, 2, ...; version 0 is the agent's letter in runs.letter
+    text TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    PRIMARY KEY (run_id, version)
+);
 """
 
 
@@ -93,8 +100,10 @@ class Store:
         path = path or REPO_ROOT / settings()["storage"]["db_path"]
         path.parent.mkdir(parents=True, exist_ok=True)
         self.path = path
-        # One connection per thread; WAL and a busy timeout let parallel eval runs write.
-        self.db = sqlite3.connect(path, timeout=30)
+        # One Store per thread or request; WAL and a busy timeout let parallel runs write.
+        # check_same_thread=False because FastAPI may open a request's Store in one worker
+        # thread and use it in another; a Store is still never used by two at once.
+        self.db = sqlite3.connect(path, timeout=30, check_same_thread=False)
         self.db.row_factory = sqlite3.Row
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.executescript(SCHEMA)
@@ -141,6 +150,50 @@ class Store:
     def list_runs(self, limit: int = 20) -> list[sqlite3.Row]:
         return self.db.execute(
             "SELECT * FROM runs ORDER BY started_at DESC LIMIT ?", (limit,)
+        ).fetchall()
+
+    def close(self) -> None:
+        self.db.close()
+
+    def runs_for_case(self, case_id: str, limit: int = 50) -> list[sqlite3.Row]:
+        return self.db.execute(
+            "SELECT * FROM runs WHERE case_id = ? ORDER BY started_at DESC LIMIT ?",
+            (case_id, limit),
+        ).fetchall()
+
+    def run_counts(self) -> dict[str, tuple[int, str]]:
+        """Per case: (number of runs, status of the latest run)."""
+        rows = self.db.execute(
+            "SELECT case_id, COUNT(*) AS n, "
+            "(SELECT status FROM runs r2 WHERE r2.case_id = r.case_id "
+            " ORDER BY started_at DESC LIMIT 1) AS latest "
+            "FROM runs r GROUP BY case_id"
+        ).fetchall()
+        return {r["case_id"]: (r["n"], r["latest"]) for r in rows}
+
+    def steps_after(self, run_id: str, idx: int) -> list[sqlite3.Row]:
+        return self.db.execute(
+            "SELECT * FROM steps WHERE run_id = ? AND idx > ? ORDER BY idx", (run_id, idx)
+        ).fetchall()
+
+    def add_draft(self, run_id: str, text: str) -> sqlite3.Row:
+        with self.db:
+            version = self.db.execute(
+                "SELECT COALESCE(MAX(version), 0) + 1 FROM draft_versions WHERE run_id = ?",
+                (run_id,),
+            ).fetchone()[0]
+            self.db.execute(
+                "INSERT INTO draft_versions (run_id, version, text, created_at) "
+                "VALUES (?, ?, ?, ?)",
+                (run_id, version, text, _now()),
+            )
+        return self.db.execute(
+            "SELECT * FROM draft_versions WHERE run_id = ? AND version = ?", (run_id, version)
+        ).fetchone()
+
+    def drafts(self, run_id: str) -> list[sqlite3.Row]:
+        return self.db.execute(
+            "SELECT * FROM draft_versions WHERE run_id = ? ORDER BY version", (run_id,)
         ).fetchall()
 
     def citation_rejections(self, run_id: str) -> int:

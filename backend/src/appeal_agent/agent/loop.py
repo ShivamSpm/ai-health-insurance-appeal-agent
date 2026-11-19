@@ -22,8 +22,8 @@ from appeal_agent.agent.outputs import Findings
 from appeal_agent.agent.prompts import SYSTEM_PROMPT, TASK_PROMPT, system_prompt
 from appeal_agent.agent.skills import load_skills
 from appeal_agent.agent.tools import TOOL_SPECS, CaseSession
-from appeal_agent.config import DATA_DIR, REPO_ROOT, model, settings
-from appeal_agent.domain import CaseInputs
+from appeal_agent.cases import load_case
+from appeal_agent.config import REPO_ROOT, model, settings
 from appeal_agent.llm import client
 from appeal_agent.pricing import cost_usd
 from appeal_agent.store import Store
@@ -112,11 +112,6 @@ def git_sha() -> str | None:
 def prompt_hash() -> str:
     material = SYSTEM_PROMPT + TASK_PROMPT + json.dumps(TOOL_SPECS, sort_keys=True)
     return hashlib.sha256(material.encode()).hexdigest()[:12]
-
-
-def load_case(case_id: str) -> CaseInputs:
-    path = DATA_DIR / "cases" / case_id / "case.json"
-    return CaseInputs.model_validate_json(path.read_text(encoding="utf-8"))
 
 
 def new_run_id(case_id: str) -> str:

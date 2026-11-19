@@ -8,6 +8,7 @@ uv run appeal-agent eval score|report EVAL_ID
 uv run appeal-agent eval compare EVAL_A EVAL_B
 uv run appeal-agent eval failures EVAL_ID --metric deadline [--tally]
 uv run appeal-agent eval list
+uv run appeal-agent serve [--port 8000] [--reload]
 """
 
 import argparse
@@ -183,6 +184,19 @@ def cmd_eval_list(args) -> int:
     return 0
 
 
+def cmd_serve(args) -> int:
+    import uvicorn
+
+    uvicorn.run(
+        "appeal_agent.api.app:create_app",
+        factory=True,
+        host=args.host,
+        port=args.port,
+        reload=args.reload,
+    )
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="appeal-agent")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -235,6 +249,12 @@ def main() -> int:
     p = esub.add_parser("list", help="List recent evals.")
     p.add_argument("--limit", type=int, default=20)
     p.set_defaults(func=cmd_eval_list)
+
+    p = sub.add_parser("serve", help="Run the API for the review UI.")
+    p.add_argument("--host", default="127.0.0.1")
+    p.add_argument("--port", type=int, default=8000)
+    p.add_argument("--reload", action="store_true", help="Restart on code changes (dev).")
+    p.set_defaults(func=cmd_serve)
 
     args = parser.parse_args()
     return args.func(args)

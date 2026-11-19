@@ -25,6 +25,16 @@ reports_dir = "evals/reports"   # relative to the repo root; committed
 
 [storage]
 db_path = "backend/runs.db"   # relative to the repo root; gitignored
+user_cases_dir = "data/user_cases"   # cases created in the UI; relative to the repo root; gitignored
+
+[api]
+# Origins allowed to call the API from a browser. Override with APPEAL_CORS_ORIGINS (comma-separated).
+cors_origins = ["http://localhost:3000"]
+live_runs = true      # allow starting live (paid) runs; a password gate comes with deployment on Day 7
+run_workers = 2       # live runs executed at the same time
+poll_s = 0.3          # how often the event stream checks SQLite for new steps
+stale_after_s = 600   # a running run with no new step for this long is reported as stalled
+replay_max_step_s = 3.0   # longest pause between steps when replaying at 1x
 
 # USD per 1M tokens. Source: https://www.crusoe.ai/cloud/pricing (Serverless
 # Inference), read 2026-10-21. Check against the Crusoe console.
