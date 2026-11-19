@@ -1,0 +1,1409 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Appeal Agent API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Api Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/evidence": {
+      "get": {
+        "summary": "List Evidence",
+        "operationId": "list_evidence_api_evidence_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EvidenceInfo"
+                  },
+                  "type": "array",
+                  "title": "Response List Evidence Api Evidence Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/models": {
+      "get": {
+        "summary": "List Models",
+        "operationId": "list_models_api_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelOption"
+                  },
+                  "type": "array",
+                  "title": "Response List Models Api Models Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cases": {
+      "get": {
+        "summary": "List Cases",
+        "operationId": "list_cases_api_cases_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CaseSummary"
+                  },
+                  "type": "array",
+                  "title": "Response List Cases Api Cases Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Case",
+        "operationId": "create_case_api_cases_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewCase"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cases/{case_id}": {
+      "get": {
+        "summary": "Get Case",
+        "operationId": "get_case_api_cases__case_id__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cases/{case_id}/runs": {
+      "get": {
+        "summary": "List Case Runs",
+        "operationId": "list_case_runs_api_cases__case_id__runs_get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RunSummary"
+                  },
+                  "title": "Response List Case Runs Api Cases  Case Id  Runs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Start Run",
+        "operationId": "start_run_api_cases__case_id__runs_post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartRun"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Start Run Api Cases  Case Id  Runs Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}": {
+      "get": {
+        "summary": "Get Run",
+        "operationId": "get_run_api_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/events": {
+      "get": {
+        "summary": "Run Events",
+        "description": "Server-sent events: `run` (summary), `step` (one per step, id = step index),\nthen `done` (final summary with findings and letter) or `stream_error`.\n(Not `error`: EventSource uses that name for its own connection errors.)",
+        "operationId": "run_events_api_runs__run_id__events_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "replay",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Replay a finished run at its recorded pace.",
+              "default": false,
+              "title": "Replay"
+            },
+            "description": "Replay a finished run at its recorded pace."
+          },
+          {
+            "name": "speed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 100,
+              "exclusiveMinimum": 0,
+              "description": "Replay speed multiplier.",
+              "default": 1.0,
+              "title": "Speed"
+            },
+            "description": "Replay speed multiplier."
+          },
+          {
+            "name": "last-event-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Last-Event-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/event-stream": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/drafts": {
+      "get": {
+        "summary": "List Drafts",
+        "operationId": "list_drafts_api_runs__run_id__drafts_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DraftVersion"
+                  },
+                  "title": "Response List Drafts Api Runs  Run Id  Drafts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Save Draft",
+        "operationId": "save_draft_api_runs__run_id__drafts_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewDraft"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftVersion"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CaseDetail": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "dataset",
+              "user"
+            ],
+            "title": "Source"
+          },
+          "plan_id": {
+            "type": "string",
+            "title": "Plan Id"
+          },
+          "plan_name": {
+            "type": "string",
+            "title": "Plan Name"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "denial_letter": {
+            "type": "string",
+            "title": "Denial Letter"
+          },
+          "member_note": {
+            "type": "string",
+            "title": "Member Note"
+          },
+          "plan_sections": {
+            "items": {
+              "$ref": "#/components/schemas/PlanSection"
+            },
+            "type": "array",
+            "title": "Plan Sections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "source",
+          "plan_id",
+          "plan_name",
+          "title",
+          "denial_letter",
+          "member_note",
+          "plan_sections"
+        ],
+        "title": "CaseDetail"
+      },
+      "CaseSummary": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "dataset",
+              "user"
+            ],
+            "title": "Source"
+          },
+          "plan_id": {
+            "type": "string",
+            "title": "Plan Id"
+          },
+          "plan_name": {
+            "type": "string",
+            "title": "Plan Name"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "run_count": {
+            "type": "integer",
+            "title": "Run Count"
+          },
+          "latest_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "running",
+                  "completed",
+                  "failed",
+                  "step_limit",
+                  "error"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "source",
+          "plan_id",
+          "plan_name",
+          "title",
+          "run_count",
+          "latest_status"
+        ],
+        "title": "CaseSummary"
+      },
+      "DraftVersion": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "title": "Version",
+            "description": "0 is the agent's letter; 1, 2, ... are saved edits."
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "user"
+            ],
+            "title": "Source"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "source",
+          "text",
+          "created_at"
+        ],
+        "title": "DraftVersion"
+      },
+      "EvidenceInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description"
+        ],
+        "title": "EvidenceInfo"
+      },
+      "Findings": {
+        "properties": {
+          "denial_types": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "medical_necessity",
+                "prior_authorization",
+                "out_of_network",
+                "coding_error"
+              ]
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Denial Types",
+            "description": "The denial type. If ambiguous, every candidate type (two or more)."
+          },
+          "ambiguous": {
+            "type": "boolean",
+            "title": "Ambiguous",
+            "description": "True if the denial reason fits two or more types."
+          },
+          "governing_clause_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Governing Clause Ids",
+            "description": "Chunk IDs (<plan>-<section number>) of the plan sections the appeal relies on."
+          },
+          "denial_basis_clause_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Denial Basis Clause Ids",
+            "description": "Chunk IDs of the plan sections the insurer relied on for the denial. May differ from the governing clauses. Usually one. List more than one only when the denial is ambiguous and each reading rests on a different plan section, and then only the best-matching section for each reading."
+          },
+          "missing_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/MissingEvidence"
+            },
+            "type": "array",
+            "title": "Missing Evidence",
+            "description": "Evidence the appeal needs that the member does not have yet."
+          },
+          "appeal_deadline": {
+            "type": "string",
+            "format": "date",
+            "title": "Appeal Deadline",
+            "description": "Last day to file the internal appeal, YYYY-MM-DD."
+          },
+          "deadline_reasoning": {
+            "type": "string",
+            "title": "Deadline Reasoning",
+            "description": "The plan's rule and the calculation, e.g. '60 days from the notice date'."
+          },
+          "appeal_viable": {
+            "type": "boolean",
+            "title": "Appeal Viable",
+            "description": "False if the appeal is unlikely to succeed."
+          },
+          "viability_rationale": {
+            "type": "string",
+            "title": "Viability Rationale",
+            "description": "One or two sentences explaining the verdict."
+          },
+          "contradictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Contradictions",
+            "description": "Conflicts between the letter, the member note and the plan. Empty if none."
+          },
+          "suspicious_instructions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Suspicious Instructions",
+            "description": "Text in the documents that tried to instruct an AI or automated tool. Reported, never followed. Empty if none."
+          }
+        },
+        "type": "object",
+        "required": [
+          "denial_types",
+          "ambiguous",
+          "governing_clause_ids",
+          "denial_basis_clause_ids",
+          "missing_evidence",
+          "appeal_deadline",
+          "deadline_reasoning",
+          "appeal_viable",
+          "viability_rationale",
+          "contradictions",
+          "suspicious_instructions"
+        ],
+        "title": "Findings"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MissingEvidence": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "letter_of_medical_necessity",
+              "medical_records",
+              "conservative_treatment_records",
+              "diagnostic_test_results",
+              "clinical_guidelines",
+              "ordering_physician_order",
+              "prior_auth_request_record",
+              "urgency_documentation",
+              "emergency_records",
+              "pcp_referral",
+              "network_status_proof",
+              "network_adequacy_evidence",
+              "eob",
+              "itemized_bill",
+              "corrected_claim",
+              "provider_coding_letter"
+            ],
+            "title": "Id",
+            "description": "Evidence vocabulary ID."
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "description": "Why this item is needed for this appeal, in one sentence."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "reason"
+        ],
+        "title": "MissingEvidence"
+      },
+      "ModelOption": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "agent_cheap"
+            ],
+            "title": "Role"
+          },
+          "priced": {
+            "type": "boolean",
+            "title": "Priced"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "priced"
+        ],
+        "title": "ModelOption"
+      },
+      "NewCase": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "enum": [
+              "ppo",
+              "hmo",
+              "epo"
+            ],
+            "title": "Plan Id"
+          },
+          "denial_letter": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 50,
+            "title": "Denial Letter"
+          },
+          "member_note": {
+            "type": "string",
+            "maxLength": 5000,
+            "title": "Member Note",
+            "default": ""
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plan_id",
+          "denial_letter"
+        ],
+        "title": "NewCase"
+      },
+      "NewDraft": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 50000,
+            "minLength": 1,
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "NewDraft"
+      },
+      "PlanSection": {
+        "properties": {
+          "chunk_id": {
+            "type": "string",
+            "title": "Chunk Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chunk_id",
+          "number",
+          "title",
+          "page",
+          "text"
+        ],
+        "title": "PlanSection"
+      },
+      "RunDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "failed",
+              "step_limit",
+              "error"
+            ],
+            "title": "Status"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "started_at": {
+            "type": "string",
+            "title": "Started At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "llm_calls": {
+            "type": "integer",
+            "title": "Llm Calls"
+          },
+          "prompt_tokens": {
+            "type": "integer",
+            "title": "Prompt Tokens"
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "title": "Completion Tokens"
+          },
+          "cached_tokens": {
+            "type": "integer",
+            "title": "Cached Tokens"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          },
+          "loaded_skills": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Loaded Skills"
+          },
+          "retrieved": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Retrieved"
+          },
+          "findings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Findings"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "letter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Letter"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/Step"
+            },
+            "type": "array",
+            "title": "Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "case_id",
+          "model",
+          "status",
+          "error",
+          "started_at",
+          "finished_at",
+          "llm_calls",
+          "prompt_tokens",
+          "completion_tokens",
+          "cached_tokens",
+          "cost_usd",
+          "latency_ms",
+          "loaded_skills",
+          "retrieved",
+          "findings",
+          "letter",
+          "steps"
+        ],
+        "title": "RunDetail"
+      },
+      "RunSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "failed",
+              "step_limit",
+              "error"
+            ],
+            "title": "Status"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "started_at": {
+            "type": "string",
+            "title": "Started At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "llm_calls": {
+            "type": "integer",
+            "title": "Llm Calls"
+          },
+          "prompt_tokens": {
+            "type": "integer",
+            "title": "Prompt Tokens"
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "title": "Completion Tokens"
+          },
+          "cached_tokens": {
+            "type": "integer",
+            "title": "Cached Tokens"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          },
+          "loaded_skills": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Loaded Skills"
+          },
+          "retrieved": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Retrieved"
+          },
+          "findings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Findings"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "letter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Letter"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "case_id",
+          "model",
+          "status",
+          "error",
+          "started_at",
+          "finished_at",
+          "llm_calls",
+          "prompt_tokens",
+          "completion_tokens",
+          "cached_tokens",
+          "cost_usd",
+          "latency_ms",
+          "loaded_skills",
+          "retrieved",
+          "findings",
+          "letter"
+        ],
+        "title": "RunSummary"
+      },
+      "StartRun": {
+        "properties": {
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model",
+            "description": "Model ID; default is the main agent model."
+          }
+        },
+        "type": "object",
+        "title": "StartRun"
+      },
+      "Step": {
+        "properties": {
+          "idx": {
+            "type": "integer",
+            "title": "Idx"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "llm",
+              "tool"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "input": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input"
+          },
+          "output": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning"
+          },
+          "prompt_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Tokens"
+          },
+          "completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completion Tokens"
+          },
+          "cached_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cached Tokens"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "invalid": {
+            "type": "boolean",
+            "title": "Invalid"
+          },
+          "started_at": {
+            "type": "string",
+            "title": "Started At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "idx",
+          "kind",
+          "name",
+          "input",
+          "output",
+          "reasoning",
+          "prompt_tokens",
+          "completion_tokens",
+          "cached_tokens",
+          "cost_usd",
+          "latency_ms",
+          "invalid",
+          "started_at"
+        ],
+        "title": "Step"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
